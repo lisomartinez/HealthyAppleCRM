@@ -1,0 +1,17 @@
+package ar.com.healthyapple.crm_web.model.Sale;
+
+public enum SaleStateEnum {
+    ESTIMATING,
+    WAITING_CONFIRMATION,
+    WAITING_PUT_DOWN_DEPOSIT,
+    MODIFYING_ESTIMATE,
+    REJECTED_ESTIMATE,
+    WORK_IN_PROGRESS,
+    CANCELED_WORK,
+    DONE_WORK,
+    DELIVERING,
+    WAITING_PAY,
+    PAYED,
+    FINISHED,
+    CLAIMED_WORK
+}
