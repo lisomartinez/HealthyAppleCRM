@@ -1,29 +1,27 @@
 package ar.com.healthyapple.crm_web.model.Computer;
 
-import ar.com.healthyapple.crm_web.model.SpecificationItem;
-import ar.com.healthyapple.crm_web.model.TechnicalSpecificationItem;
-import ar.com.healthyapple.crm_web.model.TechnicalSpecificationItemType;
+import ar.com.healthyapple.crm_web.model.Specification;
+import ar.com.healthyapple.crm_web.model.Component;
+import ar.com.healthyapple.crm_web.model.ComponentType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
 import java.util.Arrays;
-import java.util.List;
 
-@Entity
+
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class HardDrive extends TechnicalSpecificationItem {
+public class HardDrive  {
 
-    public HardDrive(String name, String description, TechnicalSpecificationItemType technicalSpecificationItemType, SpecificationItem type, SpecificationItem size) {
-        super(name,description, technicalSpecificationItemType, Arrays.asList(type, size));
-    }
+//    public HardDrive(ComponentType name, Specification type, Specification size) {
+//        super(name, Arrays.asList(type, size));
+//    }
 
-    public HardDrive() {
-        super();
-    }
+//    public HardDrive() {
+//        super();
+//    }
 
 
 }

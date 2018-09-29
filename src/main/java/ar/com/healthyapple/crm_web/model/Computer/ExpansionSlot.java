@@ -1,6 +1,6 @@
 package ar.com.healthyapple.crm_web.model.Computer;
 
-import ar.com.healthyapple.crm_web.model.SpecificationItem;
+import ar.com.healthyapple.crm_web.model.Specification;
 import lombok.*;
 
 import javax.persistence.Embeddable;
@@ -12,9 +12,9 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 public class ExpansionSlot {
 
-    private SpecificationItem type;
+    private Specification type;
 
-    private SpecificationItem speed;
+    private Specification speed;
 
 
 }

@@ -1,104 +1,110 @@
 package ar.com.healthyapple.crm_web;
 
-import ar.com.healthyapple.crm_web.model.Computer.HardDrive;
-
-import ar.com.healthyapple.crm_web.model.Computer.Memory;
-import ar.com.healthyapple.crm_web.model.Computer.MotherBoard;
-import ar.com.healthyapple.crm_web.model.Computer.Processor;
-import ar.com.healthyapple.crm_web.repository.Computer.*;
+import ar.com.healthyapple.crm_web.model.*;
+import ar.com.healthyapple.crm_web.model.Client.Client;
+import ar.com.healthyapple.crm_web.model.Sale.Sale;
+import ar.com.healthyapple.crm_web.repository.*;
+import ar.com.healthyapple.crm_web.repository.Client.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
-@Component
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+
+@org.springframework.stereotype.Component
 public class DatabaseLoader implements ApplicationRunner {
 
-    private HardDriveRepository hardDriveRepository;
+    private ClientRepository clientRepository;
 
-    private MemoryRepository memoryRepository;
+    private TechnicalSpecificationTypeRepository technicalSpecificationTypeRepository;
 
-    private MotherBoardRepository motherBoardRepository;
+    private TechnicalSpecificationRepository technicalSpecificationRepository;
 
-    private PcCaseRepository pcCaseRepository;
+    private ComponentRespository componentRespository;
 
-    private PowerSupplyRepository powerSupplyRepository;
 
-    private ProcessorRepository processorRepository;
-
-    private VideoCardRepository videoCardRepository;
+    private SpecificationRepository specificationRepository;
 
     @Autowired
-    public DatabaseLoader(HardDriveRepository hardDriveRepository, MemoryRepository memoryRepository, MotherBoardRepository motherBoardRepository, PcCaseRepository pcCaseRepository, PowerSupplyRepository powerSupplyRepository, ProcessorRepository processorRepository, VideoCardRepository videoCardRepository) {
-        this.hardDriveRepository = hardDriveRepository;
-        this.memoryRepository = memoryRepository;
-        this.motherBoardRepository = motherBoardRepository;
-        this.pcCaseRepository = pcCaseRepository;
-        this.powerSupplyRepository = powerSupplyRepository;
-        this.processorRepository = processorRepository;
-        this.videoCardRepository = videoCardRepository;
+    public DatabaseLoader(ClientRepository clientRepository, TechnicalSpecificationTypeRepository technicalSpecificationTypeRepository, TechnicalSpecificationRepository technicalSpecificationRepository, ComponentRespository componentRespository,  SpecificationRepository specificationRepository) {
+        this.clientRepository = clientRepository;
+        this.technicalSpecificationTypeRepository = technicalSpecificationTypeRepository;
+        this.technicalSpecificationRepository = technicalSpecificationRepository;
+        this.componentRespository = componentRespository;
+        this.specificationRepository = specificationRepository;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        createHardDrives();
-        createMemory();
-        createProcessor();
-        createMotherBoard();
-        createPcCase();
-        createPowerSupply();
-        createVideoCard();
-        createMacComputer();
-        createHackintoshComputer();
-    }
+        final String MODEL_IDENTIFIER = "AAA1234";
+        final String SERIAL_NUMBER = "123";
+        final String PREINSTALLED_MACOS = "Mavericks";
+        final String DISPLAY_SIZE = "15.0";
+
+        List<Specification> specifications = Arrays.asList(new Specification("SpecificationName", "SpecificationDescription"));
+
+        Component component = new Component("ComponentType111", specifications);
+        componentRespository.save(component);
+
+        List<Component> components = Arrays.asList(component);
+
+        TechnicalSpecificationType technicalSpecificationType = new TechnicalSpecificationType("Mac");
+        technicalSpecificationTypeRepository.save(technicalSpecificationType);
+
+        TechnicalSpecification macComputer = new TechnicalSpecification(technicalSpecificationType, components);
+
+        Product product = new Product("imac", "i7", macComputer);
+
+        List<Product> productList = Arrays.asList(product);
+
+        Client client = new Client(1111123123213L, LocalDate.of(2010, 3, 1), "Juan", "Perez", "jp@gmail.com", "LALALA 123",
+                productList,
+                Arrays.asList(new Sale()));
+
+//        TechnicalSpecification hackintoshComputer=  new TechnicalSpecification(
+//                hackTechnicalSpecificationType, Arrays.asList(
+//                new MotherBoard(),
+//                new Processor(),
+//                new Memory(),
+//                new HardDrive(),
+//                new PcCase(),
+//                new PowerSupply(),
+//                new VideoCard()
+//        )
+//        );
+
+        clientRepository.save(client);
+
+        client = new Client(998131123213L, LocalDate.of(2011, 3, 1), "Pedro", "Salame", "ps@gmail.com", "LALALA 456");
+        clientRepository.save(client);
+
+        client = new Client(242323123213L, LocalDate.of(2010, 2, 12), "Jose", "SinApellido", "js@gmail.com", "LALALA 7856");
+        clientRepository.save(client);
+
+        client = new Client(4123123L, LocalDate.of(2008, 8, 11),"Ramiro", "Novaro", "rn@gmail.com", "LALALA 12313");
+        clientRepository.save(client);
+
+        client = new Client(423121233L, LocalDate.of(2016, 9, 22), "Joaquin", "Martinez", "jm@gmail.com", "LALALA 97834");
+        clientRepository.save(client);
+
+        client = new Client(1223213L,  LocalDate.of(2017, 11, 1) ,"Saleme", "Lopez", "sl@gmail.com", "LALALA 6345");
+        clientRepository.save(client);
+
+        client = new Client(312123213L,  LocalDate.of(2017, 9, 11),  "Juan", "Alfonso", "ja@gmail.com", "LALALA 47567");
+        clientRepository.save(client);
 
 
-    private void createHardDrives() {
-        hardDriveRepository.save(new HardDrive("WD",  "Caviar Black","123", "HD", "500GB"));
-        hardDriveRepository.save(new HardDrive("WD",  "Caviar Blue", "234","HD", "2TB"));
-        hardDriveRepository.save(new HardDrive("WD",  "Caviar Red",  "566","HD", "4TB"));
-        hardDriveRepository.save(new HardDrive("WD",  "Caviar Green","987", "HD", "1TB"));
-        hardDriveRepository.save(new HardDrive("Samsung",  "860 EVO", "7567","SSD", "250GB"));
-        hardDriveRepository.save(new HardDrive("Samsung",  "860 EVO", "2345345", "SSD", "500GB"));
-    }
+        client = new Client(3121232167573L,  LocalDate.of(2017, 8, 11), "Joaco", "Alfonso", "ja@gmail.com", "LALALA 47567");
+        clientRepository.save(client);
 
-    private void createMemory() {
-        memoryRepository.save(new Memory("Kingston", "ValueRam", "12313AAA", "DDR3", 1333, 16));
-        memoryRepository.save(new Memory("Kingston", "ValueRam", "AAA123", "DDR4", 2133, 16));
-        memoryRepository.save(new Memory("GSkill", "HyperX", "BNB234", "DDR4", 3200, 32));
-        memoryRepository.save(new Memory("Kingston", "HyperX", "ZZZD23", "DDR4", 1600, 8));
-        memoryRepository.save(new Memory("Corsair", "Savage", "123111", "DDR3", 2400, 32));
-        memoryRepository.save(new Memory("Crucial", "Savage", "1444AAA", "DDR2", 1333, 4));
-    }
+        client = new Client(3121225675673213L,  LocalDate.of(2018, 2, 1), "Juan Martin", "Alfonso", "ja@gmail.com", "LALALA 47567");
+        clientRepository.save(client);
+        client = new Client(31212234243213L, LocalDate.of(2018, 2, 3), "Juan Manuel", "Alfonso", "ja@gmail.com", "LALALA 47567");
+        clientRepository.save(client);
 
-    private void createProcessor() {
-        processorRepository.save(new Processor("Intel", "i7 4790k", "AAA3123", 4, "1150", 4000));
-        processorRepository.save(new Processor("Intel", "i7 4770k", "SSS3123", 4, "1151", 3800));
-        processorRepository.save(new Processor("Intel", "i5 4690k", "ASD413", 4, "1150", 3200));
-        processorRepository.save(new Processor("Intel", "i3 3100", "a1AD23", 2, "1150", 2800));
-    }
-
-    private void createMotherBoard() {
-        motherBoardRepository.save(new MotherBoard("Gigabyte", "Z97", "GA-Z97X-UD7 TH", "1150"));
-    }
-
-    private void createPcCase() {
-
-    }
-
-    private void createPowerSupply() {
-
-    }
-
-    private void createVideoCard() {
-
-    }
-
-    private void createMacComputer() {
-
-    }
-
-    private void createHackintoshComputer() {
 
     }
 

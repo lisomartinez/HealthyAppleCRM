@@ -5,6 +5,7 @@ import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
 import ar.com.healthyapple.crm_web.model.Client.Client;
 import ar.com.healthyapple.crm_web.model.Product;
 import ar.com.healthyapple.crm_web.model.Sale.Sale;
+import ar.com.healthyapple.crm_web.model.Sale.SaleState;
 import ar.com.healthyapple.crm_web.model.Sale.SaleStateEnum;
 import ar.com.healthyapple.crm_web.model.Service;
 import ar.com.healthyapple.crm_web.repository.SaleRepository;
@@ -55,6 +56,8 @@ public class SaleServiceImplTest {
     @MockBean
     private Product product;
 
+    @MockBean
+    private SaleState saleState;
 
     @MockBean
     private Client client;
@@ -74,7 +77,7 @@ public class SaleServiceImplTest {
         saleRequest = new SaleBuilder()
                 .setTag("serviceTest")
                 .setDescription("This is a service test")
-                .setState(SaleStateEnum.ESTIMATING)
+                .setState(saleState)
                 .setClient(client)
                 .setOriginDate( LocalDate.of(2018, 3, 10))
                 .setDueDate( LocalDate.of(2018, 9, 10))
@@ -86,7 +89,7 @@ public class SaleServiceImplTest {
                 .setId(ID)
                 .setTag("serviceTest")
                 .setDescription("This is a service test")
-                .setState(SaleStateEnum.ESTIMATING)
+                .setState(saleState)
                 .setClient(client)
                 .setOriginDate( LocalDate.of(2018, 3, 10))
                 .setDueDate( LocalDate.of(2018, 9, 10))

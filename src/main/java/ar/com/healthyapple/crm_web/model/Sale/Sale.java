@@ -25,7 +25,8 @@ public class Sale {
 
     private String description;
 
-    private SaleStateEnum state;
+    @OneToOne
+    private SaleState state;
 
     //TODO: orphanRemoval = true,
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +44,7 @@ public class Sale {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Service> serviceList;
 
-    public Sale(String tag, String description, SaleStateEnum state, Client client, LocalDate originDate, LocalDate dueDate, BigDecimal totalCost, BigDecimal finalPrice, List<Service> serviceList) {
+    public Sale(String tag, String description, SaleState state, Client client, LocalDate originDate, LocalDate dueDate, BigDecimal totalCost, BigDecimal finalPrice, List<Service> serviceList) {
         this.tag = tag;
         this.description = description;
         this.state = state;

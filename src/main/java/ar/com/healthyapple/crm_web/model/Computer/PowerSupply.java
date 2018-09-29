@@ -1,28 +1,22 @@
 package ar.com.healthyapple.crm_web.model.Computer;
 
-import ar.com.healthyapple.crm_web.model.SpecificationItem;
-import ar.com.healthyapple.crm_web.model.TechnicalSpecificationItem;
-import ar.com.healthyapple.crm_web.model.TechnicalSpecificationItemType;
+import ar.com.healthyapple.crm_web.model.Specification;
+import ar.com.healthyapple.crm_web.model.Component;
+import ar.com.healthyapple.crm_web.model.ComponentType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
 
-@Entity
+
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class PowerSupply extends TechnicalSpecificationItem {
+public class PowerSupply  {
 
-    public PowerSupply() {
-        super();
-    }
 
-    public PowerSupply(String name, String description, TechnicalSpecificationItemType technicalSpecificationItemType, SpecificationItem power) {
-        super(name, description, technicalSpecificationItemType, Arrays.asList(power));
-    }
+//    public PowerSupply(String name, String description, ComponentType name, Specification power) {
+//        super(name, Arrays.asList(power));
+//    }
 }

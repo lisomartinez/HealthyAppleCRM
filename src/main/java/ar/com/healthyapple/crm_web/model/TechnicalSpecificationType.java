@@ -15,6 +15,7 @@ import java.util.Objects;
 @Getter
 @ToString
 public class TechnicalSpecificationType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +23,9 @@ public class TechnicalSpecificationType {
 
     public TechnicalSpecificationType(String name) {
         this.name = name;
+    }
+
+    public TechnicalSpecificationType() {
     }
 
     @Override

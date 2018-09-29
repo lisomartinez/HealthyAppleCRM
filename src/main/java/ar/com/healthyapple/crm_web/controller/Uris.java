@@ -12,7 +12,9 @@ public class Uris {
     public static final String PROCESSORS = "/processors";
     public static final String POWER_SUPPLIES = "/power-supplies";
     public static final String COMPUTERS = "/computers";
+    public static final String CLIENTS = "/clients";
     public static final String HACKINTOSH = "/hackintosh";
     public static final String MAC_COMPUTERS = "/mac-computers";
+    public static final String ERROR = "/error";
 
 }

@@ -12,24 +12,21 @@ import java.util.Objects;
 @Setter
 @Getter
 @ToString
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class TechnicalSpecification {
+public class TechnicalSpecification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private TechnicalSpecificationType technicalSpecificationType;
 
-    @OneToMany
-    private List<TechnicalSpecificationItem> technicalSpecificationItems;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Component> components;
 
-    public TechnicalSpecification(String name, TechnicalSpecificationType technicalSpecificationType, List<TechnicalSpecificationItem> technicalSpecificationItems) {
-        this.name = name;
+    public TechnicalSpecification(TechnicalSpecificationType technicalSpecificationType, List<Component> components) {
         this.technicalSpecificationType = technicalSpecificationType;
-        this.technicalSpecificationItems = technicalSpecificationItems;
+        this.components = components;
     }
 
     public TechnicalSpecification() {

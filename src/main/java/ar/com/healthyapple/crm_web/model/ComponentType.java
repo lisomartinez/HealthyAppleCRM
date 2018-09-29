@@ -10,31 +10,44 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
-@Entity
-@Setter
-@Getter
-@ToString
-public class SpecificationItem {
+
+public class ComponentType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String specification;
 
-    public SpecificationItem() {
+    private String name;
+
+    public ComponentType() {
     }
 
-    public SpecificationItem(String name, String specification) {
+    public ComponentType(String name) {
         this.name = name;
-        this.specification = specification;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SpecificationItem)) return false;
-        SpecificationItem that = (SpecificationItem) o;
+        if (o == null || getClass() != o.getClass()) return false;
+        ComponentType that = (ComponentType) o;
         return Objects.equals(id, that.id);
     }
 

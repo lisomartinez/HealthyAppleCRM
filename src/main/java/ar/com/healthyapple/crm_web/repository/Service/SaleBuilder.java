@@ -2,6 +2,7 @@ package ar.com.healthyapple.crm_web.repository.Service;
 
 import ar.com.healthyapple.crm_web.model.Client.Client;
 import ar.com.healthyapple.crm_web.model.Sale.Sale;
+import ar.com.healthyapple.crm_web.model.Sale.SaleState;
 import ar.com.healthyapple.crm_web.model.Sale.SaleStateEnum;
 import ar.com.healthyapple.crm_web.model.Service;
 
@@ -33,7 +34,7 @@ public class SaleBuilder {
         return this;
     }
 
-    public SaleBuilder setState(SaleStateEnum state) {
+    public SaleBuilder setState(SaleState state) {
         sale.setState(state);
         return this;
     }

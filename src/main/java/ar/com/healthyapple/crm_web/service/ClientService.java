@@ -1,27 +1,30 @@
 package ar.com.healthyapple.crm_web.service;
 
-import ar.com.healthyapple.crm_web.dto.Computer.ClientDto;
+import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
+import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
+import ar.com.healthyapple.crm_web.exceptions.PageDoesNotExistException;
 import ar.com.healthyapple.crm_web.model.Client.Client;
-import ar.com.healthyapple.crm_web.repository.Client.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ClientService {
+@Service
+public interface ClientService {
 
-    private ClientRepository clientRepository;
+    Client create(Client client) throws AlreadyExistException;
 
-    @Autowired
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    Client read(Long mobile) throws NotFoundException;
 
-    public List<Client> findAll() {
-        //return this.clientRepository.findAll(IllegalArgumentException::new);
-        return null;
-    }
+    Client update(Client client) throws NotFoundException;
 
-    public Client create(ClientDto clientDto) {
-        return null;
-    }
+    void deleteByMobile(Long mobile) throws NotFoundException;
+
+    void delete(Client client) throws NotFoundException;
+
+    Page<Client> findByFirstNameOrLastName(String firstNameOrLastName, int page, int pageSize) throws PageDoesNotExistException;
+
+    Page<Client> findAll(int page, int pageSize) throws PageDoesNotExistException;
+
+
 }

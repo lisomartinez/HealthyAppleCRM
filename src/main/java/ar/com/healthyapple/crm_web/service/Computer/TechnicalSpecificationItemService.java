@@ -2,7 +2,7 @@ package ar.com.healthyapple.crm_web.service.Computer;
 
 import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
 import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
-import ar.com.healthyapple.crm_web.model.TechnicalSpecificationItem;
+import ar.com.healthyapple.crm_web.model.Component;
 import org.springframework.stereotype.Service;
 
 
@@ -10,15 +10,15 @@ import java.util.List;
 
 @Service
 public interface TechnicalSpecificationItemService {
-    TechnicalSpecificationItem create(TechnicalSpecificationItem technicalSpecification) throws AlreadyExistException;
+    Component create(Component technicalSpecification) throws AlreadyExistException;
 
-    TechnicalSpecificationItem read(Long id) throws NotFoundException;
+    Component read(Long id) throws NotFoundException;
 
-    TechnicalSpecificationItem update(TechnicalSpecificationItem technicalSpecification) throws NotFoundException;
+    Component update(Component technicalSpecification) throws NotFoundException;
 
     void deleteById(Long id) throws NotFoundException;
 
-    void delete(TechnicalSpecificationItem technicalSpecification)throws NotFoundException;
+    void delete(Component technicalSpecification)throws NotFoundException;
 
-    List<TechnicalSpecificationItem> findAll();
+    List<Component> findAll();
 }

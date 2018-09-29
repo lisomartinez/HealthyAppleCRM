@@ -11,8 +11,6 @@ import org.junit.runners.Suite;
         PcCaseControllerTest.class,
         HardDriveControllerTest.class,
         ProcessorControllerTest.class,
-        EntityDtoConverterTest.class,
-        ComputerControllerTest.class
 })
 public class AllControllerTests {
 }

@@ -1,16 +1,27 @@
 package ar.com.healthyapple.crm_web.controller;
 
-import ar.com.healthyapple.crm_web.dto.Computer.MacComputerDto;
-import ar.com.healthyapple.crm_web.model.Computer.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Ignore;
+import ar.com.healthyapple.crm_web.dto.Computer.ClientDto;
+import ar.com.healthyapple.crm_web.dto.Computer.ProductDto;
+import ar.com.healthyapple.crm_web.model.*;
+import ar.com.healthyapple.crm_web.model.Client.Client;
+import ar.com.healthyapple.crm_web.model.Sale.Sale;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.ui.Model;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringRunner.class)
 
 public class EntityDtoConverterTest {
 /*
@@ -57,12 +68,58 @@ public class EntityDtoConverterTest {
 
     }
 
-
+*/
 
 
 
     @Test
-    @Ignore
     public void convertToDto() {
-    }*/
+
+
+
+        List<Specification> specifications = Arrays.asList(new Specification("SpecificationName", "SpecificationDescription"));
+
+        ComponentType componentType = new ComponentType("ComponentType");
+
+        Component component = new Component("ComponentType", specifications);
+
+        List<Component> components = Arrays.asList(component);
+
+        TechnicalSpecificationType technicalSpecificationType = new TechnicalSpecificationType("Mac");
+
+        TechnicalSpecification macComputer = new TechnicalSpecification(technicalSpecificationType, components);
+
+        Product product = new Product("imac", "i7", macComputer);
+
+        List<Product> productList = Arrays.asList(product);
+
+        Client client = new Client(1111123123213L, LocalDate.of(2010, 3, 1), "Juan", "Perez", "jp@gmail.com", "LALALA 123",
+                        productList,
+                Arrays.asList(new Sale()));
+
+        ModelMapper modelMapper = new ModelMapper();
+//         modelMapper.createTypeMap(Client.class, ClientDto.class).addMappings(mapper -> {
+//            mapper.map(Client::getMobile, ClientDto::setMobile);
+//            mapper.map(Client::getStartDate, ClientDto::setAddress);
+//            mapper.map(Client::getFirstName, ClientDto::setFirstName);
+//            mapper.map(Client::getLastName, ClientDto::setLastName);
+//            mapper.map(Client::getEmail, ClientDto::setEmail);
+//            mapper.map(Client::getAddress, ClientDto::setAddress);
+//            mapper.map(Client::getProducts, ClientDto::setProducts);
+//             mapper.map(Client::getServices, ClientDto::setServices);
+//         });
+//
+//         modelMapper.createTypeMap(Product.class, ProductDto.class).addMappings(mapper -> {
+//             mapper.map(Product::getId, ProductDto::setId);
+//             mapper.map(Product::getName, ProductDto::setName);
+//             mapper.map(Product::getDescription, ProductDto::setDescription);
+//             mapper.map(Product::getSpecs, ProductDto::setSpecifications);
+//
+//         });
+
+//        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        ClientDto clientDto = new EntityDtoConverter(modelMapper).convertToDto(client, ClientDto.class);
+
+        assertThat(clientDto.getProducts().get(0)).isNotNull();
+    }
 }

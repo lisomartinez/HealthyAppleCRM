@@ -19,7 +19,7 @@ public class Product {
 
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TechnicalSpecification specs;
 
     public Product(String name, String description, TechnicalSpecification specs) {

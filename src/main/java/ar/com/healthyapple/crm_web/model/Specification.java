@@ -14,24 +14,27 @@ import java.util.Objects;
 @Setter
 @Getter
 @ToString
-public class TechnicalSpecificationItemType {
+public class Specification {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
 
-    public TechnicalSpecificationItemType() {
+    public Specification() {
     }
 
-    public TechnicalSpecificationItemType(String name) {
+    public Specification(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TechnicalSpecificationItemType that = (TechnicalSpecificationItemType) o;
+        if (!(o instanceof Specification)) return false;
+        Specification that = (Specification) o;
         return Objects.equals(id, that.id);
     }
 
