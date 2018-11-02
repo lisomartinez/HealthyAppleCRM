@@ -1,21 +1,15 @@
 package ar.com.healthyapple.crm_web.controller;
 
-import ar.com.healthyapple.crm_web.dto.Computer.ClientDto;
-import ar.com.healthyapple.crm_web.dto.Computer.ProductDto;
-import ar.com.healthyapple.crm_web.model.*;
+import ar.com.healthyapple.crm_web.dto.Client.ClientDto;
 import ar.com.healthyapple.crm_web.model.Client.Client;
+import ar.com.healthyapple.crm_web.model.Product.*;
 import ar.com.healthyapple.crm_web.model.Sale.Sale;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.ui.Model;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,15 +75,13 @@ public class EntityDtoConverterTest {
 
         ComponentType componentType = new ComponentType("ComponentType");
 
-        Component component = new Component("ComponentType", specifications);
+        Component component = new Component("ComponentType", componentType, specifications);
 
         List<Component> components = Arrays.asList(component);
 
-        TechnicalSpecificationType technicalSpecificationType = new TechnicalSpecificationType("Mac");
+        ProductType productType = new ProductType("Mac");
 
-        TechnicalSpecification macComputer = new TechnicalSpecification(technicalSpecificationType, components);
-
-        Product product = new Product("imac", "i7", macComputer);
+        Product product = new Product(new ProductType(), "i7", components);
 
         List<Product> productList = Arrays.asList(product);
 
@@ -106,14 +98,14 @@ public class EntityDtoConverterTest {
 //            mapper.map(Client::getEmail, ClientDto::setEmail);
 //            mapper.map(Client::getAddress, ClientDto::setAddress);
 //            mapper.map(Client::getProducts, ClientDto::setProducts);
-//             mapper.map(Client::getServices, ClientDto::setServices);
+//             mapper.map(Client::getProductServices, ClientDto::setProductServices);
 //         });
 //
 //         modelMapper.createTypeMap(Product.class, ProductDto.class).addMappings(mapper -> {
 //             mapper.map(Product::getId, ProductDto::setId);
-//             mapper.map(Product::getName, ProductDto::setName);
+//             mapper.map(Product::getType, ProductDto::setType);
 //             mapper.map(Product::getDescription, ProductDto::setDescription);
-//             mapper.map(Product::getSpecs, ProductDto::setSpecifications);
+//             mapper.map(Product::getComponents, ProductDto::setComponents);
 //
 //         });
 

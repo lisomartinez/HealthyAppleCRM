@@ -1,21 +1,8 @@
 package ar.com.healthyapple.crm_web.repository.Computer;
 
-import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
-import ar.com.healthyapple.crm_web.model.Computer.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
@@ -75,7 +62,7 @@ public class ComputerRepositoryTest {
 
 
     @Test
-    public void create() {
+    public void createClient() {
         MacComputer mac1 = new MacComputer(
                 new MotherBoard("Gigabyte", "B85M","AAA","775"),
                 new Processor("Intel", "i3","AAA", 4, "775", 1000),
@@ -92,7 +79,7 @@ public class ComputerRepositoryTest {
     }
 
     @Test
-    public void read() throws Exception {
+    public void readClient() throws Exception {
         Long id = (Long) testEntityManager.getId(macComputer);
         Computer computer = computerDao.findById(id)
                 .orElseThrow(NotFoundException::new);

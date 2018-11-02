@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class PageDoesNotExistException extends RuntimeException{
 
     public static final String DESCRIPTION = "Page does not Exists Exception";
-    private static final long serialVersionUID = 698492387746370L;
+    private static final long serialVersionUID = 698492387746370009L;
 
     public PageDoesNotExistException() {
         super(DESCRIPTION);

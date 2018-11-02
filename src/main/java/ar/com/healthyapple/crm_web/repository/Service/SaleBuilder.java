@@ -1,10 +1,9 @@
 package ar.com.healthyapple.crm_web.repository.Service;
 
 import ar.com.healthyapple.crm_web.model.Client.Client;
+import ar.com.healthyapple.crm_web.model.Sale.ProductService;
 import ar.com.healthyapple.crm_web.model.Sale.Sale;
 import ar.com.healthyapple.crm_web.model.Sale.SaleState;
-import ar.com.healthyapple.crm_web.model.Sale.SaleStateEnum;
-import ar.com.healthyapple.crm_web.model.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -54,18 +53,14 @@ public class SaleBuilder {
         return this;
     }
 
-    public SaleBuilder setTotalCost(BigDecimal totalCost) {
-        sale.setTotalCost(totalCost);
-        return this;
-    }
 
     public SaleBuilder setFinalPrice(BigDecimal finalPrice) {
-        sale.setFinalPrice(finalPrice);
+        sale.setPrice(finalPrice);
         return this;
     }
 
-    public SaleBuilder setServiceList(List<Service> serviceList) {
-        sale.setServiceList(serviceList);
+    public SaleBuilder setServiceList(List<ProductService> productServiceList) {
+        sale.setProductServiceList(productServiceList);
         return this;
     }
 

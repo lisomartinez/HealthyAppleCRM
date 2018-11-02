@@ -7,13 +7,18 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @Profile("dev")
 @Component
 @Aspect
 public class ApiLogs {
 
-    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController) || @within(org.springframework.stereotype.Service) ")
     public void allResources() {
         // don't need code
     }
@@ -26,7 +31,9 @@ public class ApiLogs {
             log.append("\n   ARG: " + arg);
         }
         LogManager.getLogger(jp.getSignature().getDeclaringTypeName()).info(log);
-    }
+        }
+
+
 
     @AfterReturning(pointcut = "allResources()", returning = "result")
     public void apiResponseLog(JoinPoint jp, Object result) {

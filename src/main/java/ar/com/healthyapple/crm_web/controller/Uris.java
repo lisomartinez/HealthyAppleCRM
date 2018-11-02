@@ -2,19 +2,24 @@ package ar.com.healthyapple.crm_web.controller;
 
 public class Uris {
 
-    public static final String COMPONENTS = "/components";
-    public static final String MEMORY = "/memory";
-    public static final String HARD_DRIVES = "/hard-drives";
-    public static final String ID = "/{id}";
-    public static final String SEARCH = "/search";
-    public static final String MOTHERBOARDS = "/motherboards";
-    public static final String PC_CASE = "/pc-cases";
-    public static final String PROCESSORS = "/processors";
-    public static final String POWER_SUPPLIES = "/power-supplies";
-    public static final String COMPUTERS = "/computers";
-    public static final String CLIENTS = "/clients";
-    public static final String HACKINTOSH = "/hackintosh";
-    public static final String MAC_COMPUTERS = "/mac-computers";
-    public static final String ERROR = "/error";
-
+    static final String COMPONENTS = "/components";
+    static final String MEMORY = "/memory";
+    static final String HARD_DRIVES = "/hard-drives";
+    static final String ID = "/{id}";
+    static final String SEARCH = "/search";
+    static final String MOTHERBOARDS = "/motherboards";
+    static final String PC_CASE = "/pc-cases";
+    static final String PROCESSORS = "/processors";
+    static final String POWER_SUPPLIES = "/power-supplies";
+    static final String COMPUTERS = "/computers";
+    static final String CLIENTS = "/clients";
+    static final String HACKINTOSH = "/hackintosh";
+    static final String MAC_COMPUTERS = "/mac-computers";
+    static final String ERROR = "/error";
+    static final String PRODUCTS = "/products";
+    static final String SERVICES = "/services";
+    static final String TECHNICAL_SPECIFICATIONS = "/technical-components";
+    static final String QUOTES = "/quotes";
+    static final String PROFILES = "/profiles";
+    static final String NAMES = "/names";
 }

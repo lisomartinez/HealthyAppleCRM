@@ -6,11 +6,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        MemoryControllerTest.class,
-        MotherBoardControllerTest.class,
-        PcCaseControllerTest.class,
-        HardDriveControllerTest.class,
-        ProcessorControllerTest.class,
+
 })
 public class AllControllerTests {
 }
