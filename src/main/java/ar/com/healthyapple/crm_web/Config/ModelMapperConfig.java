@@ -30,14 +30,14 @@ public class ModelMapperConfig {
 
         modelMapper.createTypeMap(Product.class, ProductDto.class).addMappings(mapper -> {
             mapper.map(Product::getId, ProductDto::setId);
-            mapper.map(Product::getProductType, ProductDto::setProductType);;
+            mapper.map(Product::getProductType, ProductDto::setProductType);
             mapper.map(Product::getDescription, ProductDto::setDescription);
             mapper.map(Product::getComponents, ProductDto::setComponents);
         });
 
         modelMapper.createTypeMap(ProductDto.class, Product.class).addMappings(mapper -> {
             mapper.map(ProductDto::getId, Product::setId);
-            mapper.map(ProductDto::getProductType, Product::setProductType);;
+            mapper.map(ProductDto::getProductType, Product::setProductType);
             mapper.map(ProductDto::getDescription, Product::setDescription);
             mapper.map(ProductDto::getComponents, Product::setComponents);
         });
@@ -211,6 +211,7 @@ public class ModelMapperConfig {
             mapper.map(Client::getEmail, ThinClientDto::setEmail);
             mapper.map(Client::getAddress, ThinClientDto::setAddress);
         });
+
 
         Provider<LocalDate> localDateProvider = new AbstractProvider<>() {
             @Override

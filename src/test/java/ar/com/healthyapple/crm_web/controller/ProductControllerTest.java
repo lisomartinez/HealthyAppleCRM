@@ -2,6 +2,7 @@ package ar.com.healthyapple.crm_web.controller;
 
 import ar.com.healthyapple.crm_web.Config.SecurityConfig;
 import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductDtoConverter;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductProfileDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.*;
 import ar.com.healthyapple.crm_web.model.Product.*;
 import ar.com.healthyapple.crm_web.service.Client.ClientService;
@@ -46,6 +47,9 @@ class ProductControllerTest {
 
     @MockBean
     private ProductDtoConverter productDtoConverter;
+
+    @MockBean
+    private ProductProfileDtoConverter productProfileDtoConverter;
 
     @MockBean
     private  ProductService productService;

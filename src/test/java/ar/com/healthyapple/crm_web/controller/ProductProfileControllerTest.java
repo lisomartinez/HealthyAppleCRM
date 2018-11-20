@@ -1,6 +1,7 @@
 package ar.com.healthyapple.crm_web.controller;
 
 import ar.com.healthyapple.crm_web.Config.SecurityConfig;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductProfileDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ProductProfileDto;
 import ar.com.healthyapple.crm_web.model.Product.ProductProfile;
 import ar.com.healthyapple.crm_web.service.Product.ProductProfileService;
@@ -16,8 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest({ProductProfileController.class})
@@ -25,6 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductProfileControllerTest {
 
     private final static Long ID = 1L;
+
+    @MockBean
+    private ProductProfileDtoConverter productProfileDtoConverter;
 
     @Autowired
     private MockMvc mockMvc;
