@@ -39,7 +39,6 @@ public interface ClientService {
 
     Client updateProduct(Long mobile, Product product) throws NotFoundException;
 
-    Client updateService(Long mobile, Sale sale) throws NotFoundException;
 
 
     List<Product> findProductsByClientId(Long id) throws NotFoundException;

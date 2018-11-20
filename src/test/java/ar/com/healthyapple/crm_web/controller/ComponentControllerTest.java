@@ -1,6 +1,8 @@
 package ar.com.healthyapple.crm_web.controller;
 
 import ar.com.healthyapple.crm_web.Config.SecurityConfig;
+import ar.com.healthyapple.crm_web.Utils.*;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ComponentDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ComponentDto;
 import ar.com.healthyapple.crm_web.dto.Product.ComponentTypeDto;
 import ar.com.healthyapple.crm_web.dto.Product.SpecificationDto;
@@ -46,7 +48,7 @@ class ComponentControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private EntityDtoConverter entityDtoConverter;
+    private ComponentDtoConverter componentDtoConverter;
 
     @MockBean
     private ComponentService componentService;
@@ -63,14 +65,15 @@ class ComponentControllerTest {
 
     @BeforeEach
     void setUp() {
-        ComponentType componentType = new ComponentType("aaa");
-        ComponentTypeDto componentTypeDto = new ComponentTypeDto("aaa");
-        List<Specification> specifications = new ArrayList<>(Arrays.asList(new Specification()));
-        List<SpecificationDto> specificationsDto = new ArrayList<>(Arrays.asList(new SpecificationDto()));
-        request = new Component("description", componentType, specifications);
-        response = new Component("description", componentType, specifications);
-        requestDto = new ComponentDto("description", componentTypeDto, specificationsDto);
-        responseDto = new ComponentDto("description", componentTypeDto, specificationsDto);
+
+        ComponentType componentType = ComponentTypeFactory.makeComponentType();
+        ComponentTypeDto componentTypeDto = ComponentTypeDtoFactory.makeComponentTypeDto();
+        List<Specification> specifications = new ArrayList<>(Arrays.asList(SpecificationFactory.makeSpecification()));
+        List<SpecificationDto> specificationsDto = new ArrayList<>(Arrays.asList(SpecificationDtoFactory.makeSpecificationDto()));
+        request = ComponentFactory.makeComponent();
+        response = ComponentFactory.makeComponent();
+        requestDto = ComponentDtoFactory.makeComponentDto();
+        responseDto = ComponentDtoFactory.makeComponentDto();
     }
 
     @AfterEach
@@ -81,8 +84,8 @@ class ComponentControllerTest {
     @DisplayName("Create Component should return status created and resource")
     void createComponent() throws Exception {
         when(componentService.create(request)).thenReturn(response);
-        when(entityDtoConverter.convertToEntity(requestDto, Component.class)).thenReturn(request);
-        when(entityDtoConverter.convertToDto(response, ComponentDto.class)).thenReturn(responseDto);
+        when(componentDtoConverter.convertToEntity(requestDto)).thenReturn(request);
+        when(componentDtoConverter.convertToDto(response)).thenReturn(responseDto);
 
         MvcResult result = this.mockMvc.perform(post(Uris.COMPONENTS)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -97,7 +100,7 @@ class ComponentControllerTest {
     @DisplayName("Read Component should return status Ok and Resource")
     void readComponent() throws Exception {
         when(componentService.read(ID)).thenReturn(response);
-        when(entityDtoConverter.convertToDto(response, ComponentDto.class)).thenReturn(responseDto);
+        when(componentDtoConverter.convertToDto(response)).thenReturn(responseDto);
 
         MvcResult result = this.mockMvc.perform(get(Uris.COMPONENTS + Uris.ID, ID)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -111,8 +114,8 @@ class ComponentControllerTest {
     @DisplayName("Update Component should return status Ok and Resource")
     void updateComponent() throws Exception {
         when(componentService.update(request)).thenReturn(response);
-        when(entityDtoConverter.convertToEntity(requestDto, Component.class)).thenReturn(request);
-        when(entityDtoConverter.convertToDto(response, ComponentDto.class)).thenReturn(responseDto);
+        when(componentDtoConverter.convertToEntity(requestDto)).thenReturn(request);
+        when(componentDtoConverter.convertToDto(response)).thenReturn(responseDto);
 
         MvcResult result = this.mockMvc.perform(put(Uris.COMPONENTS)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +139,7 @@ class ComponentControllerTest {
     @Test
     @DisplayName("Delete Component By Resource should return status Ok")
     void deleteComponent() throws Exception {
-        when(entityDtoConverter.convertToEntity(requestDto, Component.class)).thenReturn(request);
+        when(componentDtoConverter.convertToEntity(requestDto)).thenReturn(request);
         doNothing().when(componentService).delete(request);
         this.mockMvc.perform(delete(Uris.COMPONENTS)
                 .contentType(MediaType.APPLICATION_JSON)

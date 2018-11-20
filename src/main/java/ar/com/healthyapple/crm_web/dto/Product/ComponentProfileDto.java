@@ -1,10 +1,7 @@
 package ar.com.healthyapple.crm_web.dto.Product;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 
@@ -12,6 +9,8 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of ={"id"})
+@ToString
 public class ComponentProfileDto {
 
     private Long id;

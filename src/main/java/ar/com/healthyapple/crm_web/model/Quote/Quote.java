@@ -1,14 +1,14 @@
 package ar.com.healthyapple.crm_web.model.Quote;
 
 import ar.com.healthyapple.crm_web.model.Client.Client;
-import ar.com.healthyapple.crm_web.model.Sale.ProductService;
+import ar.com.healthyapple.crm_web.model.Product.StateBasedProduct;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 @Entity
 @Getter
@@ -35,7 +35,7 @@ public class Quote {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, name = "quote_status")
+    @Column(name = "quote_status")
     private QuoteState status;
 
     @Column(name = "quote_created_date")
@@ -51,8 +51,27 @@ public class Quote {
     @JoinColumn(name = "quote_client_id")
     private Client client;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quote_service_id")
-    private List<ProductService> productServices;
 
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    @CollectionTable(name = "FTT_REGISTRI_ESCLUSIONI", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "FTT_FK_ESCLUSIONE_TO_REGISTRO"), joinColumns = @JoinColumn(name = "REGISTRO_ID"))
+//    @MapKeyColumn(name = "CLAUSOLA_ESCLUSIONE", length = 40, nullable = false)
+//    @MapKeyClass(FttEsclusioneType.class)
+//    @MapKeyEnumerated(EnumType.STRING)
+//    @Column(name = "RECORD_COUNT", nullable = false)
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinColumn(name = "quote_products" )
+    private List<StateBasedProduct> products;
+
+    public Quote(Long number, Integer version, String description, QuoteState status, LocalDateTime created, BigDecimal cost, BigDecimal price, Client client, List<StateBasedProduct> products, List<QuoteItem> items) {
+        this.number = number;
+        this.version = version;
+        this.description = description;
+        this.status = status;
+        this.created = created;
+        this.cost = cost;
+        this.price = price;
+        this.client = client;
+        this.products = products;
+    }
 }

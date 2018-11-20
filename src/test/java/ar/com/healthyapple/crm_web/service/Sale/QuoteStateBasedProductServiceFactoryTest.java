@@ -28,22 +28,22 @@ public class QuoteStateBasedProductServiceFactoryTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @MockBean
-    private NewQuoteStateBasedService newQuoteStateBasedService;
+    private NewQuoteService newQuoteStateBasedService;
 
     @MockBean
-    private AcceptedQuoteStateBasedService acceptedQuoteStateBasedService;
+    private AcceptedQuoteService acceptedQuoteService;
 
     @MockBean
-    private RequestedQuoteStateBaseService requestedQuoteStateBaseService;
+    private RequestedQuoteService requestedQuoteService;
 
     @MockBean
-    private RejectedQuoteStatedBasedService rejectedQuoteStatedBasedService;
+    private RejectedQuoteService rejectedQuoteService;
 
     @MockBean
-    private QuotedQuoteStateBasedService quotedQuoteStateBasedService;
+    private QuotedQuoteService quotedQuoteService;
 
     @MockBean
-    private ModifiedQuoteStateBasedService modifiedQuoteStateBasedService;
+    private ModifiedQuoteService modifiedQuoteService;
 
     @MockBean
     private Quote quote;
@@ -55,7 +55,7 @@ public class QuoteStateBasedProductServiceFactoryTest {
 
     @Before
     public void setUp() {
-        quoteStateBasedServiceList = Arrays.asList(newQuoteStateBasedService, acceptedQuoteStateBasedService, rejectedQuoteStatedBasedService, requestedQuoteStateBaseService, modifiedQuoteStateBasedService, quotedQuoteStateBasedService);
+        quoteStateBasedServiceList = Arrays.asList(newQuoteStateBasedService, acceptedQuoteService, rejectedQuoteService, requestedQuoteService, modifiedQuoteService, quotedQuoteService);
         quoteStateBasedServiceFactory = new QuoteStateBasedServiceFactory(quoteStateBasedServiceList);
 
     }
@@ -68,42 +68,42 @@ public class QuoteStateBasedProductServiceFactoryTest {
     public void makeNewQuoteService() {
         when(quote.getStatus()).thenReturn(QuoteState.NEW);
         when(newQuoteStateBasedService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(NewQuoteStateBasedService.class);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(NewQuoteService.class);
     }
 
     @Test
     public void makeRequestedQuoteService() {
         when(quote.getStatus()).thenReturn(QuoteState.REQUESTED);
-        when(requestedQuoteStateBaseService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(RequestedQuoteStateBaseService.class);
+        when(requestedQuoteService.isResponsibleFor(quote.getStatus())).thenReturn(true);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(RequestedQuoteService.class);
     }
 
     @Test
     public void makeQuotedQuoteService() {
         when(quote.getStatus()).thenReturn(QuoteState.QUOTED);
-        when(quotedQuoteStateBasedService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(QuotedQuoteStateBasedService.class);
+        when(quotedQuoteService.isResponsibleFor(quote.getStatus())).thenReturn(true);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(QuotedQuoteService.class);
     }
 
     @Test
     public void makeRejectedQuoteService() {
         when(quote.getStatus()).thenReturn(QuoteState.REJECTED);
-        when(rejectedQuoteStatedBasedService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(RejectedQuoteStatedBasedService.class);
+        when(rejectedQuoteService.isResponsibleFor(quote.getStatus())).thenReturn(true);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(RejectedQuoteService.class);
     }
 
     @Test
     public void makeModifiedQuoteService() {
         when(quote.getStatus()).thenReturn(QuoteState.MODIFIED);
-        when(modifiedQuoteStateBasedService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(ModifiedQuoteStateBasedService.class);
+        when(modifiedQuoteService.isResponsibleFor(quote.getStatus())).thenReturn(true);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(ModifiedQuoteService.class);
     }
 
     @Test
     public void makeAcceptedQuoteService() {
         when(quote.getStatus()).thenReturn(QuoteState.ACCEPTED);
-        when(acceptedQuoteStateBasedService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(AcceptedQuoteStateBasedService.class);
+        when(acceptedQuoteService.isResponsibleFor(quote.getStatus())).thenReturn(true);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(AcceptedQuoteService.class);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class QuoteStateBasedProductServiceFactoryTest {
     public void makeNotYetImplementedQuoteService() {
         thrown.expect(NotYetImplementedException.class);
         when(quote.getStatus()).thenReturn(null);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(AcceptedQuoteStateBasedService.class);
+        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(AcceptedQuoteService.class);
     }
 
 }

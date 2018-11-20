@@ -1,5 +1,6 @@
 package ar.com.healthyapple.crm_web.controller;
 
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ComponentDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ComponentDto;
 import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
 import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
@@ -21,34 +22,34 @@ public class ComponentController {
 
     private ComponentService componentService;
 
-    private EntityDtoConverter entityDtoConverter;
+    private ComponentDtoConverter componentDtoConverter;
 
 
     @Autowired
-    public ComponentController(ComponentService componentService,  EntityDtoConverter entityDtoConverter) {
+    public ComponentController(ComponentService componentService,  ComponentDtoConverter componentDtoConverter) {
         this.componentService = componentService;
-        this.entityDtoConverter = entityDtoConverter;
+        this.componentDtoConverter = componentDtoConverter;
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ComponentDto createComponent(@RequestBody ComponentDto componentDto) throws AlreadyExistException {
-        Component component = componentService.create(entityDtoConverter.convertToEntity(componentDto, Component.class));
-        return entityDtoConverter.convertToDto(component, ComponentDto.class);
+        Component component = componentService.create(componentDtoConverter.convertToEntity(componentDto));
+        return componentDtoConverter.convertToDto(component);
     }
 
     @GetMapping(Uris.ID)
     @ResponseStatus(HttpStatus.OK)
     public ComponentDto readComponent(@PathVariable Long id) throws NotFoundException {
-        return entityDtoConverter.convertToDto(componentService.read(id), ComponentDto.class);
+        return componentDtoConverter.convertToDto(componentService.read(id));
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ComponentDto updateComponent(@RequestBody ComponentDto componentDto) throws NotFoundException {
-        Component component = componentService.update(entityDtoConverter.convertToEntity(componentDto, Component.class));
-        return entityDtoConverter.convertToDto(component, ComponentDto.class);
+        Component component = componentService.update(componentDtoConverter.convertToEntity(componentDto));
+        return componentDtoConverter.convertToDto(component);
     }
 
     @DeleteMapping(Uris.ID)
@@ -60,7 +61,7 @@ public class ComponentController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public void deleteComponent(@RequestBody ComponentDto componentDto) throws NotFoundException {
-        componentService.delete(entityDtoConverter.convertToEntity(componentDto, Component.class));
+        componentService.delete(componentDtoConverter.convertToEntity(componentDto));
     }
 
 
@@ -71,10 +72,10 @@ public class ComponentController {
         Page<Component> componentPage = this.componentService.findAll(pageable);
 
         List<ComponentDto> componentDtos = componentPage.getContent().stream()
-                .map(component -> entityDtoConverter.convertToDto(component, ComponentDto.class))
+                .map(component -> componentDtoConverter.convertToDto(component))
                 .collect(Collectors.toList());
 
-        Page<ComponentDto> componentDtoPage = componentPage.map(component -> entityDtoConverter.convertToDto(component, ComponentDto.class));
+        Page<ComponentDto> componentDtoPage = componentPage.map(component -> componentDtoConverter.convertToDto(component));
 
         return componentDtoPage;
     }

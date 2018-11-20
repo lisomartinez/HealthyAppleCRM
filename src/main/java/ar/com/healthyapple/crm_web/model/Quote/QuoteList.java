@@ -21,7 +21,7 @@ public class QuoteList {
 
     private Long quoteNumber;
 
-    @OneToMany
+    @ManyToMany
     private List<Quote> quotes;
 
     public QuoteList(Long quoteNumber, List<Quote> quotes) {

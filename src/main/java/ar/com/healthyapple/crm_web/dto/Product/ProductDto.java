@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of ={"id"})
+@ToString
 public class ProductDto {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

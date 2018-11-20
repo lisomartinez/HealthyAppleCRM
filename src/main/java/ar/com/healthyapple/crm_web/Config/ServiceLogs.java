@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ServiceLogs {
 
-//    @Pointcut("@within(org.springframework.stereotype.ProductService)")
+//    @Pointcut("@within(org.springframework.stereotype.QuoteItemDto)")
 //    public void allResources() {
 //        // don't need code
 //    }

@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of ={"id"})
+@ToString
 public class SpecificationDto {
 
     private Long id;

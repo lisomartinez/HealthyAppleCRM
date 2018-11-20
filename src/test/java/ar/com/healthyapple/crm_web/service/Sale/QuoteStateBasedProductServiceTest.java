@@ -13,22 +13,22 @@ import java.util.List;
 public class QuoteStateBasedProductServiceTest {
 
     @MockBean
-    private NewQuoteStateBasedService newQuoteStateBasedService;
+    private NewQuoteService newQuoteStateBasedService;
 
     @MockBean
-    private AcceptedQuoteStateBasedService acceptedQuoteStateBasedService;
+    private AcceptedQuoteService acceptedQuoteService;
 
     @MockBean
-    private RequestedQuoteStateBaseService requestedQuoteStateBaseService;
+    private RequestedQuoteService requestedQuoteService;
 
     @MockBean
-    private RejectedQuoteStatedBasedService rejectedQuoteStatedBasedService;
+    private RejectedQuoteService rejectedQuoteService;
 
     @MockBean
-    private QuotedQuoteStateBasedService quotedQuoteStateBasedService;
+    private QuotedQuoteService quotedQuoteService;
 
     @MockBean
-    private ModifiedQuoteStateBasedService modifiedQuoteStateBasedService;
+    private ModifiedQuoteService modifiedQuoteService;
 
     private List<QuoteStateBasedService> quoteStateBasedServiceList;
 

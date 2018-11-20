@@ -38,9 +38,6 @@ public class Client {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     List<Product> products;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client")
-    List<Sale> services;
-
     public Client(Long mobile, LocalDate startDate, String firstName, String lastName, String email, String address) {
         this.mobile = mobile;
         this.startDate = startDate;
@@ -50,7 +47,7 @@ public class Client {
         this.address = address;
     }
 
-    public Client(Long mobile, LocalDate startDate, String firstName, String lastName, String email, String address, List<Product> products, List<Sale> services) {
+    public Client(Long mobile, LocalDate startDate, String firstName, String lastName, String email, String address, List<Product> products) {
         this.mobile = mobile;
         this.startDate = startDate;
         this.firstName = firstName;
@@ -58,6 +55,5 @@ public class Client {
         this.email = email;
         this.address = address;
         this.products = products;
-        this.services = services;
     }
 }

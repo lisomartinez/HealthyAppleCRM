@@ -6,14 +6,17 @@ import ar.com.healthyapple.crm_web.exceptions.QuoteOperationNotAllowedException;
 import ar.com.healthyapple.crm_web.exceptions.QuoteVersionMismatchException;
 import ar.com.healthyapple.crm_web.model.Quote.Quote;
 import ar.com.healthyapple.crm_web.model.Quote.QuoteState;
+import org.springframework.stereotype.Service;
 
-@org.springframework.stereotype.Service
+import java.util.List;
+
+@Service
 public interface QuoteStateBasedService {
 //    Quote request(Quote quote) throws QuoteOperationNotAllowedException;
 //
 
 //
-//    Quote modify(List<ProductService> services) throws QuoteOperationNotAllowedException;
+//    Quote modify(List<QuoteItemDto> productServiceSaleList) throws QuoteOperationNotAllowedException;
 //
 //    void cancel() throws QuoteOperationNotAllowedException;
 //
@@ -23,33 +26,37 @@ public interface QuoteStateBasedService {
 
     void setQuote(Quote quote);
 
-    default Quote request() throws QuoteOperationNotAllowedException, AlreadyExistException {
+    default void request() throws QuoteOperationNotAllowedException, AlreadyExistException {
         throw new QuoteOperationNotAllowedException("Operation Not Allowed");
     }
 
-    default Quote create(Quote newQuote) throws QuoteOperationNotAllowedException {
+    default void create() throws QuoteOperationNotAllowedException {
         throw new QuoteOperationNotAllowedException("Operation Not Allowed");
 
     }
-    default Quote cancel(Quote newQuote) throws QuoteOperationNotAllowedException {
+    default void cancel() throws QuoteOperationNotAllowedException {
         throw new QuoteOperationNotAllowedException("Operation Not Allowed");
     }
 
-    default Quote modify(Quote newQuote) throws QuoteOperationNotAllowedException, QuoteNotFoundException, QuoteVersionMismatchException {
+    default void modify() throws QuoteOperationNotAllowedException, QuoteNotFoundException, QuoteVersionMismatchException {
         throw new QuoteOperationNotAllowedException("Operation Not Allowed");
     }
 
-    default Quote reject() throws QuoteOperationNotAllowedException {
-        throw new QuoteOperationNotAllowedException("Operation Not Allowed");
-
-    }
-
-    default Quote accept() throws QuoteOperationNotAllowedException {
+    default void reject() throws QuoteOperationNotAllowedException {
         throw new QuoteOperationNotAllowedException("Operation Not Allowed");
 
     }
 
-    default Quote send() throws QuoteOperationNotAllowedException, QuoteNotFoundException {
+    default void accept() throws QuoteOperationNotAllowedException {
+        throw new QuoteOperationNotAllowedException("Operation Not Allowed");
+
+    }
+
+    default void send() throws QuoteOperationNotAllowedException, QuoteNotFoundException {
         throw new QuoteOperationNotAllowedException("Operation Not Allowed");
     }
+
+    Quote getQuote();
+
+    List<String> getAvailableOperations();
 }

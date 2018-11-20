@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of ={"id"})
+@ToString
 public class ComponentTypeDto {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

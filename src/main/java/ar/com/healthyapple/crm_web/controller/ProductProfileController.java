@@ -1,5 +1,6 @@
 package ar.com.healthyapple.crm_web.controller;
 
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductProfileDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ProductProfileDto;
 import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
 import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
@@ -20,35 +21,35 @@ public class ProductProfileController {
 
     private ProductProfileService productProfileService;
 
-    private EntityDtoConverter entityDtoConverter;
+    private ProductProfileDtoConverter productProfileDtoConverter;
 
     @Autowired
-    public ProductProfileController(ProductProfileService productProfileService, EntityDtoConverter entityDtoConverter) {
+    public ProductProfileController(ProductProfileService productProfileService, ProductProfileDtoConverter productProfileDtoConverter) {
         this.productProfileService = productProfileService;
-        this.entityDtoConverter = entityDtoConverter;
+        this.productProfileDtoConverter = productProfileDtoConverter;
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ProductProfileDto createP(@RequestBody ProductProfileDto profileDto) throws AlreadyExistException {
-        ProductProfile profile = productProfileService.create(entityDtoConverter.convertToEntity(profileDto, ProductProfile.class));
-        return entityDtoConverter.convertToDto(profile, ProductProfileDto.class);
+        ProductProfile profile = productProfileService.create(productProfileDtoConverter.convertToEntity(profileDto));
+        return productProfileDtoConverter.convertToDto(profile);
     }
 
     @GetMapping(Uris.ID)
     @ResponseStatus(HttpStatus.OK)
     public ProductProfileDto read(@PathVariable Long id) throws NotFoundException {
         ProductProfile productProfile = productProfileService.read(id);
-        return entityDtoConverter.convertToDto(productProfile, ProductProfileDto.class);
+        return productProfileDtoConverter.convertToDto(productProfile);
     }
 
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ProductProfileDto update(@RequestBody ProductProfileDto profileDto) throws NotFoundException {
-        ProductProfile profile = productProfileService.update(entityDtoConverter.convertToEntity(profileDto, ProductProfile.class));
-        return entityDtoConverter.convertToDto(profile, ProductProfileDto.class);
+        ProductProfile profile = productProfileService.update(productProfileDtoConverter.convertToEntity(profileDto));
+        return productProfileDtoConverter.convertToDto(profile);
     }
 
 
@@ -57,7 +58,7 @@ public class ProductProfileController {
     public List<ProductProfileDto> findAll() throws PageDoesNotExistException {
 
         return this.productProfileService.findAll().stream()
-                .map(profile -> entityDtoConverter.convertToDto(profile, ProductProfileDto.class)).collect(Collectors.toList());
+                .map(profile -> productProfileDtoConverter.convertToDto(profile)).collect(Collectors.toList());
     }
 
     @GetMapping(Uris.NAMES)

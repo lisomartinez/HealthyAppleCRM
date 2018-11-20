@@ -8,7 +8,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of ={"id"})
+@ToString
 public class ProductProfileDto {
     private Long id;
     private String type;

@@ -1,5 +1,6 @@
 package ar.com.healthyapple.crm_web.dto.quote;
 
+import ar.com.healthyapple.crm_web.dto.Client.ThinClientDto;
 import ar.com.healthyapple.crm_web.model.Client.Client;
 import lombok.*;
 
@@ -10,9 +11,11 @@ import lombok.*;
 @EqualsAndHashCode
 public class RequestQuoteDto {
 
-    private Integer number;
-
-    private Client client;
-
     private String description;
+
+    private Long clientId;
+
+    public RequestQuoteDto(String description) {
+        this.description = description;
+    }
 }

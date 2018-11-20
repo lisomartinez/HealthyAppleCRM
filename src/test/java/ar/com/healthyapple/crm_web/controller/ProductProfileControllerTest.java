@@ -32,8 +32,6 @@ class ProductProfileControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
-    private EntityDtoConverter entityDtoConverter;
 
     @MockBean
     private ProductProfileService service;

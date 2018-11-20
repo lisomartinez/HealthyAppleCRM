@@ -39,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 
     private final String ADDRESS = "address";
 
-    private final String PRODUCT = "product";
+    private final String PRODUCT = "component";
 
     private final String SERVICE = "service";
 
@@ -47,7 +47,6 @@ public class ClientServiceImpl implements ClientService {
     private ClientRepository clientRepository;
 
     private ClientInfoValidator clientInfoValidator;
-
 
     private ProductRepository productRepository;
 
@@ -61,7 +60,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public Client create(Client client) throws AlreadyExistException {
         if (clientRepository.findByMobile(client.getMobile()).isPresent()) {
-            throw new AlreadyExistException("The client already exists");
+            throw new AlreadyExistException("The clientId already exists");
         } else {
             return clientRepository.save(client);
         }
@@ -69,13 +68,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client read(Long id) throws NotFoundException {
-        return clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        return clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
     }
 
     @Override
     @Transactional
     public Client update(Client client) throws NotFoundException {
-        clientRepository.findById(client.getId()).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        clientRepository.findById(client.getId()).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         return clientRepository.save(client);
     }
 
@@ -83,14 +82,14 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void deleteById(Long id) throws NotFoundException {
-        clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         clientRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public void delete(Client client) throws NotFoundException {
-        clientRepository.findById(client.getMobile()).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        clientRepository.findById(client.getMobile()).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         clientRepository.delete(client);
     }
 
@@ -122,7 +121,7 @@ public class ClientServiceImpl implements ClientService {
             InvalidDateFormatException, InvalidEmailAddressException,
             NotYetImplementedException, AlreadyExistException {
 
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         for (String field : params.keySet()) {
             switch (field) {
                 case MOBILE:
@@ -207,9 +206,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Client updateProduct(Long mobile, Product product) throws NotFoundException {
-        Client client = clientRepository.findById(mobile)
-                .orElseThrow(() -> new NotFoundException("The client does not exist."));
+    public Client updateProduct(Long id, Product product) throws NotFoundException {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         Product clientProduct = client.getProducts().stream()
                 .filter(clientProd -> clientProd.getId().equals(product.getId()))
                 .findFirst()
@@ -218,16 +217,11 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.save(client);
     }
 
-    @Override
-    @Transactional
-    public Client updateService(Long mobile, Sale sale) throws NotFoundException {
-        throw new NotYetImplementedException();
-    }
 
     @Override
     @Transactional
     public List<Product> findProductsByClientId(Long id) throws NotFoundException {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         return client.getProducts();
     }
 
@@ -245,8 +239,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void deleteClientProductById(Long clientId, Long productId) throws NotFoundException {
-        Client client = clientRepository.findById(clientId).orElseThrow(() -> new NotFoundException("The client does not exist."));
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("The component does not exist."));
         client.getProducts().remove(product);
         clientRepository.save(client);
     }
@@ -254,7 +248,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public List<Product> addProduct(Long id, Product product) throws NotFoundException, AlreadyExistException{
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The client does not exist."));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("The clientId does not exist."));
         client.getProducts().add(product);
         Client savedClient = clientRepository.save(client);
         return savedClient.getProducts();

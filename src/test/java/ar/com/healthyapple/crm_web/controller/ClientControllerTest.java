@@ -1,9 +1,16 @@
 package ar.com.healthyapple.crm_web.controller;
 
 import ar.com.healthyapple.crm_web.Config.SecurityConfig;
+import ar.com.healthyapple.crm_web.Utils.ClientFactory;
+import ar.com.healthyapple.crm_web.Utils.ProductDtoFactory;
+import ar.com.healthyapple.crm_web.Utils.ProductFactory;
+import ar.com.healthyapple.crm_web.Utils.ThinClientDtoFactory;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ClientDtoConverter;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductDtoConverter;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ThinClientDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Client.ThinClientDto;
 import ar.com.healthyapple.crm_web.dto.Product.ProductDto;
-import ar.com.healthyapple.crm_web.dto.SaleDto;
+import ar.com.healthyapple.crm_web.dto.Sale.SaleDto;
 import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
 import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
 import ar.com.healthyapple.crm_web.model.Client.Client;
@@ -13,7 +20,6 @@ import ar.com.healthyapple.crm_web.service.Client.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +55,16 @@ public class ClientControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private EntityDtoConverter entityDtoConverter;
+    private ClientDtoConverter clientDtoConverter;
+
+    @MockBean
+    private ThinClientDtoConverter thinClientDtoConverter;
+
+    @MockBean
+    private ProductDtoConverter productDtoConverter;
 
     @MockBean
     private ClientService clientService;
-
-
-    private String string;
 
     @MockBean
     private List<Product> products;
@@ -86,21 +95,22 @@ public class ClientControllerTest {
     @BeforeEach
     public void setUp() {
 
-        products = Arrays.asList(productRequest);
-        productDtoList = Arrays.asList(productDtoResponse);
-        clientRequest = new Client(1111123123213L, LocalDate.of(2018, 2, 1), "Juan", "Perez", "jp@gmail.com", "Lalala", products, services);
-        clientResponse = new Client(1111123123213L, LocalDate.of(2018, 2, 1), "Juan", "Perez", "jp@gmail.com", "Lalala", products, services);
-        clientRequestDto = new ThinClientDto(1111123123213L, "Juan", "Perez", "jp@gmail.com", "Lalala", LocalDate.of(2018, 2, 1));
-        clientResponseDto = new ThinClientDto(1111123123213L, "Juan", "Perez", "jp@gmail.com", "Lalala", LocalDate.of(2018, 2, 1));
+
+        products = Arrays.asList(ProductFactory.makeProduct());
+        productDtoList = Arrays.asList(ProductDtoFactory.makeProductDto());
+        clientRequest = ClientFactory.makeClient();
+        clientResponse = ClientFactory.makeClient();
+        clientRequestDto = ThinClientDtoFactory.makeThinClientDto();
+        clientResponseDto = ThinClientDtoFactory.makeThinClientDto();
         clientResponse.setId(ID);
     }
 
     @Test
     public void createShouldReturnClientDtoAndStatusCreated() throws Exception {
-        when(entityDtoConverter.convertThinClientToEntity(clientRequestDto, Client.class))
+        when(thinClientDtoConverter.convertToEntity(clientRequestDto))
                 .thenReturn(clientRequest);
         when(clientService.create(clientRequest)).thenReturn(clientResponse);
-        when(entityDtoConverter.convertToThinClientDto(clientResponse, ThinClientDto.class))
+        when(thinClientDtoConverter.convertToDto(clientResponse))
                 .thenReturn(clientResponseDto);
         MvcResult result = this.mockMvc.perform(post(Uris.CLIENTS)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -113,7 +123,7 @@ public class ClientControllerTest {
 
     @Test
     public void createDuplicateShouldReturnAlreadyExists() throws Exception {
-        when(entityDtoConverter.convertThinClientToEntity(clientRequestDto, Client.class))
+        when(thinClientDtoConverter.convertToEntity(clientRequestDto))
                 .thenReturn(clientRequest);
         when(clientService.create(clientRequest)).thenThrow(AlreadyExistException.class);
         this.mockMvc.perform(post(Uris.CLIENTS)
@@ -124,10 +134,10 @@ public class ClientControllerTest {
 
     @Test
     public void readShouldReturnClientDtoAndStatusOk() throws Exception {
-        when(entityDtoConverter.convertThinClientToEntity(clientRequestDto, Client.class))
+        when(thinClientDtoConverter.convertToEntity(clientRequestDto))
                 .thenReturn(clientRequest);
         when(clientService.read(clientResponse.getId())).thenReturn(clientResponse);
-        when(entityDtoConverter.convertToThinClientDto(clientResponse, ThinClientDto.class))
+        when(thinClientDtoConverter.convertToDto(clientResponse))
                .thenReturn(clientResponseDto);
         MvcResult result = this.mockMvc.perform(get(Uris.CLIENTS + Uris.ID, clientResponse.getId())
                 .contentType(MediaType.APPLICATION_JSON))
@@ -139,7 +149,7 @@ public class ClientControllerTest {
 
     @Test
     public void readNonExistentResourceShouldReturnNotFound() throws Exception {
-        when(entityDtoConverter.convertThinClientToEntity(clientRequestDto, Client.class))
+        when(thinClientDtoConverter.convertToEntity(clientRequestDto))
                 .thenReturn(clientRequest);
         when(clientService.read(clientResponse.getId())).thenThrow(NotFoundException.class);
         this.mockMvc.perform(get(Uris.CLIENTS + Uris.ID, clientResponse.getId())
@@ -149,10 +159,10 @@ public class ClientControllerTest {
 
     @Test
     public void updateShouldReturnThinClientDtoAndStautsOk() throws Exception {
-        when(entityDtoConverter.convertThinClientToEntity(clientRequestDto, Client.class))
+        when(thinClientDtoConverter.convertToEntity(clientRequestDto))
                 .thenReturn(clientRequest);
         when(clientService.update(clientRequest)).thenReturn(clientResponse);
-        when(entityDtoConverter.convertToThinClientDto(clientResponse, ThinClientDto.class))
+        when(thinClientDtoConverter.convertToDto(clientResponse))
                 .thenReturn(clientResponseDto);
         MvcResult result = this.mockMvc.perform(put(Uris.CLIENTS)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -165,7 +175,7 @@ public class ClientControllerTest {
 
     @Test
     public void updateNonExistentResourceShouldReturnNotFound() throws Exception {
-        when(entityDtoConverter.convertThinClientToEntity(clientRequestDto, Client.class))
+        when(thinClientDtoConverter.convertToEntity(clientRequestDto))
                 .thenReturn(clientRequest);
         when(clientService.update(clientRequest)).thenThrow(NotFoundException.class);
         this.mockMvc.perform(put(Uris.CLIENTS)

@@ -1,7 +1,6 @@
 package ar.com.healthyapple.crm_web.dto.Client;
 
 import ar.com.healthyapple.crm_web.dto.Product.ProductDto;
-import ar.com.healthyapple.crm_web.dto.SaleDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.*;
@@ -39,10 +38,7 @@ public class ClientDto {
     @JsonInclude(Include.NON_NULL)
     private List<ProductDto> products;
 
-    @JsonInclude(Include.NON_NULL)
-    private List<SaleDto> services;
-
-    public ClientDto(Long mobile, String startDate, String firstName, String lastName, String email, String address, List<ProductDto> products, List<SaleDto> services) {
+    public ClientDto(Long mobile, String startDate, String firstName, String lastName, String email, String address, List<ProductDto> products) {
         this.mobile = mobile;
         this.startDate = startDate;
         this.firstName = firstName;
@@ -50,6 +46,5 @@ public class ClientDto {
         this.email = email;
         this.address = address;
         this.products = products;
-        this.services = services;
     }
 }

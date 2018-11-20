@@ -1,5 +1,7 @@
 package ar.com.healthyapple.crm_web.controller;
 
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductDtoConverter;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductProfileDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ProductDto;
 import ar.com.healthyapple.crm_web.dto.Product.ProductProfileDto;
 import ar.com.healthyapple.crm_web.dto.Product.ProductWithoutProfileDto;
@@ -26,16 +28,19 @@ public class ProductController {
 
     private ProductService productService;
 
-    private EntityDtoConverter entityDtoConverter;
+    private ProductDtoConverter productDtoConverter;
+
+    private ProductProfileDtoConverter productProfileDtoConverter;
 
     private ProductProfileService productProfileService;
 
     private ClientService clientService;
 
     @Autowired
-    public ProductController(ProductService productService, EntityDtoConverter entityDtoConverter, ProductProfileService productProfileService, ClientService clientService) {
+    public ProductController(ProductService productService, ProductDtoConverter productDtoConverter, ProductProfileDtoConverter productProfileDtoConverter, ProductProfileService productProfileService, ClientService clientService) {
         this.productService = productService;
-        this.entityDtoConverter = entityDtoConverter;
+        this.productDtoConverter = productDtoConverter;
+        this.productProfileDtoConverter = productProfileDtoConverter;
         this.productProfileService = productProfileService;
         this.clientService = clientService;
     }
@@ -44,8 +49,8 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createProduct(@RequestBody ProductDto productDto) throws AlreadyExistException {
-        Product product = productService.create(entityDtoConverter.convertToEntity(productDto, Product.class));
-        return entityDtoConverter.convertToDto(product, ProductDto.class);
+        Product product = productService.create(productDtoConverter.convertToEntity(productDto));
+        return productDtoConverter.convertToDto(product);
     }
 
     @GetMapping(Uris.ID)
@@ -53,8 +58,8 @@ public class ProductController {
     public ProductDto readProduct(@PathVariable String id) throws NotFoundException {
 
         Product product = productService.read(Long.parseLong(id));
-        ProductProfileDto productProfileDto = entityDtoConverter.convertToDto(productProfileService.readByName(product.getProductType().getName()), ProductProfileDto.class);
-        ProductDto productDto = entityDtoConverter.convertToDto(product, ProductDto.class);
+        ProductProfileDto productProfileDto = productProfileDtoConverter.convertToDto(productProfileService.readByName(product.getProductType().getName()));
+        ProductDto productDto = productDtoConverter.convertToDto(product);
         productDto.setProfile(productProfileDto);
         return productDto;
     }
@@ -62,8 +67,8 @@ public class ProductController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ProductDto updateProduct(@RequestBody ProductDto productDto) throws NotFoundException {
-        Product product = productService.update(entityDtoConverter.convertToEntity(productDto, Product.class));
-        return entityDtoConverter.convertToDto(product, ProductDto.class);
+        Product product = productService.update(productDtoConverter.convertToEntity(productDto));
+        return productDtoConverter.convertToDto(product);
     }
 
     @DeleteMapping(Uris.ID)
@@ -72,16 +77,16 @@ public class ProductController {
         clientService.deleteClientProductById(client_id, id);
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Page<ProductWithoutProfileDto> findAllProducts(Pageable pageable) throws PageDoesNotExistException {
-
-        Page<Product> productPage = this.productService.findAll(pageable);
-
-        Page<ProductWithoutProfileDto> productDtoPage = productPage.map(product -> entityDtoConverter.convertToThinProductDto(product, ProductWithoutProfileDto.class));
-
-        return productDtoPage;
-    }
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public Page<ProductWithoutProfileDto> findAllProducts(Pageable pageable) throws PageDoesNotExistException {
+//
+//        Page<Product> productPage = this.productService.findAll(pageable);
+//
+//        Page<ProductWithoutProfileDto> productDtoPage = productPage.map(component -> productDtoConverter.convertToThinProductDto(component, ProductWithoutProfileDto.class));
+//
+//        return productDtoPage;
+//    }
 
 
     @GetMapping(Uris.NAMES + Uris.CLIENTS + Uris.ID)
@@ -95,7 +100,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public List<ProductDto> findProductsByClientId(@PathVariable Long id) throws NotFoundException {
         return this.clientService.findProductsByClientId(id).stream()
-                .map(product -> entityDtoConverter.convertToDto(product, ProductDto.class))
+                .map(product -> productDtoConverter.convertToDto(product))
                 .collect(Collectors.toList());
     }
 

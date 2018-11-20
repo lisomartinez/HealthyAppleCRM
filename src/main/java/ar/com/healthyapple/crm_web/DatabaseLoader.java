@@ -157,8 +157,8 @@ public class DatabaseLoader implements ApplicationRunner {
                             .append(clientName[1])
                             .append(emailOptions[emailOptionsRandom.nextInt((emailOptionMax - emailOptionMin) + 1) + emailOptionMin])
                             .toString(), "LALALA 123",
-                    productList,
-                    Arrays.asList(new Sale()));
+                    productList);
+
 
             email.setLength(0);
 

@@ -1,13 +1,13 @@
 package ar.com.healthyapple.crm_web.dto.quote;
 
 import ar.com.healthyapple.crm_web.dto.Client.ThinClientDto;
-import ar.com.healthyapple.crm_web.dto.service.ServiceDto;
+import ar.com.healthyapple.crm_web.dto.Product.StateBasedProductDto;
 import ar.com.healthyapple.crm_web.model.Quote.QuoteState;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -34,7 +34,8 @@ public class QuoteDto {
     private QuoteState status;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private LocalDateTime created;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private String created;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private BigDecimal cost;
@@ -43,12 +44,15 @@ public class QuoteDto {
     private BigDecimal price;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ThinClientDto client;
+    private Long clientId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<ServiceDto> services;
+    private List<StateBasedProductDto> products;
 
-    public QuoteDto(Long number, Integer version, String description, QuoteState status, LocalDateTime created, BigDecimal cost, BigDecimal price, ThinClientDto client, List<ServiceDto> services) {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<String> availableOperations;
+
+    public QuoteDto(Long number, Integer version, String description, QuoteState status, String created, BigDecimal cost, BigDecimal price, Long clientId, List<StateBasedProductDto> products, List<String> availableOperations) {
         this.number = number;
         this.version = version;
         this.description = description;
@@ -56,7 +60,8 @@ public class QuoteDto {
         this.created = created;
         this.cost = cost;
         this.price = price;
-        this.client = client;
-        this.services = services;
+        this.clientId = clientId;
+        this.products = products;
+        this.availableOperations = availableOperations;
     }
 }

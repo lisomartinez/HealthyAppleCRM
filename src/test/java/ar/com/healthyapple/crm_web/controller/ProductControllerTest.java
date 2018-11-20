@@ -1,20 +1,16 @@
 package ar.com.healthyapple.crm_web.controller;
 
 import ar.com.healthyapple.crm_web.Config.SecurityConfig;
-import ar.com.healthyapple.crm_web.dto.Client.ThinClientDto;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.*;
-import ar.com.healthyapple.crm_web.model.Client.Client;
 import ar.com.healthyapple.crm_web.model.Product.*;
 import ar.com.healthyapple.crm_web.service.Client.ClientService;
 import ar.com.healthyapple.crm_web.service.Product.ProductProfileService;
 import ar.com.healthyapple.crm_web.service.Product.ProductService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,13 +20,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -53,7 +45,7 @@ class ProductControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private EntityDtoConverter entityDtoConverter;
+    private ProductDtoConverter productDtoConverter;
 
     @MockBean
     private  ProductService productService;
@@ -107,10 +99,10 @@ class ProductControllerTest {
 
     @Test
     void createProduct() throws Exception {
-        when(entityDtoConverter.convertToEntity(requestDto, Product.class))
+        when(productDtoConverter.convertToEntity(requestDto))
                 .thenReturn(request);
         when(productService.create(request)).thenReturn(response);
-        when(entityDtoConverter.convertToDto(response, ProductDto.class))
+        when(productDtoConverter.convertToDto(response))
                 .thenReturn(responseDto);
         MvcResult result = this.mockMvc.perform(post(Uris.PRODUCTS)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,7 +116,7 @@ class ProductControllerTest {
     @Test
     void readProduct() throws Exception {
         when(productService.read(ID)).thenReturn(response);
-        when(entityDtoConverter.convertToDto(response, ProductDto.class))
+        when(productDtoConverter.convertToDto(response))
                 .thenReturn(responseDto);
         MvcResult result = this.mockMvc.perform(get(Uris.PRODUCTS + Uris.ID, ID)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -136,10 +128,10 @@ class ProductControllerTest {
 
     @Test
     void updateProduct() throws Exception {
-        when(entityDtoConverter.convertToEntity(requestDto, Product.class))
+        when(productDtoConverter.convertToEntity(requestDto))
                 .thenReturn(request);
         when(productService.update(request)).thenReturn(response);
-        when(entityDtoConverter.convertToDto(response, ProductDto.class))
+        when(productDtoConverter.convertToDto(response))
                 .thenReturn(responseDto);
         MvcResult result = this.mockMvc.perform(put(Uris.PRODUCTS)
                 .contentType(MediaType.APPLICATION_JSON)

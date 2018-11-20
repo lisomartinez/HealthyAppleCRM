@@ -1,5 +1,6 @@
 package ar.com.healthyapple.crm_web.controller;
 
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ComponentProfileDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ComponentProfileDto;
 import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
 import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
@@ -20,35 +21,35 @@ public class ComponentProfileController {
 
     private ComponentProfileService componentProfileService;
 
-    private EntityDtoConverter entityDtoConverter;
+    private ComponentProfileDtoConverter componentProfileDtoConverter;
 
     @Autowired
-    public ComponentProfileController(ComponentProfileService service, EntityDtoConverter entityDtoConverter) {
+    public ComponentProfileController(ComponentProfileService service, ComponentProfileDtoConverter componentProfileDtoConverter) {
         this.componentProfileService = service;
-        this.entityDtoConverter = entityDtoConverter;
+        this.componentProfileDtoConverter = componentProfileDtoConverter;
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ComponentProfileDto create(@RequestBody ComponentProfileDto profileDto) throws AlreadyExistException {
-        ComponentProfile profile = componentProfileService.create(entityDtoConverter.convertToEntity(profileDto, ComponentProfile.class));
-        return entityDtoConverter.convertToDto(profile, ComponentProfileDto.class);
+        ComponentProfile profile = componentProfileService.create(componentProfileDtoConverter.convertToEntity(profileDto));
+        return componentProfileDtoConverter.convertToDto(profile);
     }
 
     @GetMapping(Uris.ID)
     @ResponseStatus(HttpStatus.OK)
     public ComponentProfileDto read(@PathVariable Long id) throws NotFoundException {
         ComponentProfile ComponentProfile = componentProfileService.read(id);
-        return entityDtoConverter.convertToDto(ComponentProfile, ComponentProfileDto.class);
+        return componentProfileDtoConverter.convertToDto(ComponentProfile);
     }
 
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ComponentProfileDto update(@RequestBody ComponentProfileDto profileDto) throws NotFoundException {
-        ComponentProfile profile = componentProfileService.update(entityDtoConverter.convertToEntity(profileDto, ComponentProfile.class));
-        return entityDtoConverter.convertToDto(profile, ComponentProfileDto.class);
+        ComponentProfile profile = componentProfileService.update(componentProfileDtoConverter.convertToEntity(profileDto));
+        return componentProfileDtoConverter.convertToDto(profile);
     }
 
 
@@ -57,7 +58,7 @@ public class ComponentProfileController {
     public List<ComponentProfileDto> findAll() throws PageDoesNotExistException {
 
         return this.componentProfileService.findAll().stream()
-                .map(profile -> entityDtoConverter.convertToDto(profile, ComponentProfileDto.class)).collect(Collectors.toList());
+                .map(profile -> componentProfileDtoConverter.convertToDto(profile)).collect(Collectors.toList());
     }
 
     @GetMapping(Uris.NAMES)

@@ -30,27 +30,27 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product read(Long id) throws NotFoundException {
-        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("The component does not exist."));
     }
 
     @Override
     @Transactional
     public Product update(Product product) throws NotFoundException {
-        productRepository.findById(product.getId()).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        productRepository.findById(product.getId()).orElseThrow(() -> new NotFoundException("The component does not exist."));
         return productRepository.save(product);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) throws NotFoundException {
-        productRepository.findById(id).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        productRepository.findById(id).orElseThrow(() -> new NotFoundException("The component does not exist."));
         productRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public void delete(Product product) throws NotFoundException {
-        productRepository.findById(product.getId()).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        productRepository.findById(product.getId()).orElseThrow(() -> new NotFoundException("The component does not exist."));
         productRepository.delete(product);
     }
 
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product updateDescription(Long id, String description) throws NotFoundException {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("The component does not exist."));
         product.setDescription(description);
         return productRepository.save(product);
     }
@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product updateSpecs(Long id, List<Component> specs) throws NotFoundException {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("The product does not exist."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("The component does not exist."));
         product.setComponents(specs);
         return productRepository.save(product);
     }

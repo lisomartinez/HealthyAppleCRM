@@ -1,11 +1,13 @@
 package ar.com.healthyapple.crm_web.controller;
 
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ClientDtoConverter;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductDtoConverter;
+import ar.com.healthyapple.crm_web.controller.DtoConverter.ThinClientDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Client.ClientDto;
 import ar.com.healthyapple.crm_web.dto.Client.ThinClientDto;
 import ar.com.healthyapple.crm_web.dto.Product.ProductDto;
 import ar.com.healthyapple.crm_web.exceptions.*;
 import ar.com.healthyapple.crm_web.model.Client.Client;
-import ar.com.healthyapple.crm_web.model.Product.Product;
 import ar.com.healthyapple.crm_web.service.Client.ClientService;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,55 +23,40 @@ import java.util.stream.Collectors;
 @RequestMapping(Uris.CLIENTS)
 public class ClientController {
 
-    private final String MOBILE = "mobile";
-
-    private final String NAME = "firstName";
-
-    private final String LAST_NAME = "lastName";
-
-    private final String EMAIL = "email";
-
-    private final String START_DATE = "startDate";
-
-    private final String ADDRESS = "address";
-
-    private final String PRODUCT = "product";
-
-    private final String SERVICE = "service";
-
-    private Set<String> validParams;
-
     private ClientService clientService;
 
-    private EntityDtoConverter entityDtoConverter;
+    private ClientDtoConverter clientDtoConverter;
 
+    private ProductDtoConverter productDtoConverter;
+
+    private ThinClientDtoConverter thinClientDtoConverter;
 
     @Autowired
-    public ClientController(ClientService clientService, EntityDtoConverter entityDtoConverter) {
+    public ClientController(ClientService clientService, ClientDtoConverter clientDtoConverter, ProductDtoConverter productDtoConverter, ThinClientDtoConverter thinClientDtoConverter) {
         this.clientService = clientService;
-        this.entityDtoConverter = entityDtoConverter;
-        this.validParams = new HashSet<>(Arrays.asList(MOBILE, NAME, LAST_NAME, EMAIL, START_DATE, ADDRESS, PRODUCT, SERVICE));
+        this.clientDtoConverter = clientDtoConverter;
+        this.productDtoConverter = productDtoConverter;
+        this.thinClientDtoConverter = thinClientDtoConverter;
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ThinClientDto createClient(@RequestBody ThinClientDto clientDto) throws AlreadyExistException {
-        Client client = clientService.create(entityDtoConverter.convertThinClientToEntity(clientDto, Client.class));
-        return entityDtoConverter.convertToThinClientDto(client, ThinClientDto.class);
+        Client client = clientService.create(thinClientDtoConverter.convertToEntity(clientDto));
+        return thinClientDtoConverter.convertToDto(client);
     }
 
     @GetMapping(Uris.ID)
     @ResponseStatus(HttpStatus.OK)
     public ThinClientDto readClient(@PathVariable Long id) throws NotFoundException {
-        return entityDtoConverter.convertToThinClientDto(clientService.read(id), ThinClientDto.class);
+        return thinClientDtoConverter.convertToDto(clientService.read(id));
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ThinClientDto updateClient(@RequestBody ThinClientDto clientDto) throws NotFoundException {
-        Client client = clientService.update(entityDtoConverter.convertThinClientToEntity(clientDto, Client.class));
-        return entityDtoConverter.convertToThinClientDto(client, ThinClientDto.class);
+        Client client = clientService.update(thinClientDtoConverter.convertToEntity(clientDto));
+        return thinClientDtoConverter.convertToDto(client);
     }
 
     @DeleteMapping(Uris.ID)
@@ -81,7 +68,7 @@ public class ClientController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public void deleteClient(@RequestBody ClientDto clientDto) throws NotFoundException {
-        clientService.delete(entityDtoConverter.convertToEntity(clientDto, Client.class));
+        clientService.delete(clientDtoConverter.convertToEntity(clientDto));
     }
 
     @GetMapping
@@ -90,7 +77,7 @@ public class ClientController {
 
         Page<Client> clientPage = this.clientService.findAll(pageable);
 
-        return clientPage.map(client -> entityDtoConverter.convertToThinClientDto(client, ThinClientDto.class));
+        return clientPage.map(client -> thinClientDtoConverter.convertToDto(client));
 
     }
 
@@ -101,10 +88,10 @@ public class ClientController {
         Page<Client> clientPage = this.clientService.findByFirstNameOrLastName(name, pageable);
 
         List<ThinClientDto> clients =  clientPage.getContent().stream()
-                .map(client -> entityDtoConverter.convertToThinClientDto(client, ThinClientDto.class))
+                .map(client -> thinClientDtoConverter.convertToDto(client))
                 .collect(Collectors.toList());
 
-        return clientPage.map(client -> entityDtoConverter.convertToThinClientDto(client, ThinClientDto.class));
+        return clientPage.map(client -> thinClientDtoConverter.convertToDto(client));
 
     }
 
@@ -112,6 +99,15 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     public ThinClientDto updateClient(@PathVariable Long id, @RequestParam Map<String, String> requestParams) throws NotFoundException, InvalidParameterException, InvalidMobileNumberFormatException, InvalidClientNameException,
             InvalidAddressException, InvalidDateFormatException, InvalidEmailAddressException, NotYetImplementedException, AlreadyExistException {
+
+        final String MOBILE = "mobile";
+        final String NAME = "firstName";
+        final String LAST_NAME = "lastName";
+        final String EMAIL = "email";
+        final String START_DATE = "startDate";
+        final String ADDRESS = "address";
+        final String PRODUCT = "component";
+        Set<String> validParams = new HashSet<>(Arrays.asList(MOBILE, NAME, LAST_NAME, EMAIL, START_DATE, ADDRESS, PRODUCT));
 
         Client client;
 
@@ -121,7 +117,7 @@ public class ClientController {
             client = clientService.updateInfo(id, requestParams);
         }
 
-        return entityDtoConverter.convertToThinClientDto(client, ThinClientDto.class);
+        return thinClientDtoConverter.convertToDto(client);
     }
 
 
@@ -137,7 +133,7 @@ public class ClientController {
     public List<ProductDto> findProductsByClientId(@PathVariable Long id) throws NotFoundException {
         return this.clientService.findProductsByClientId(id)
                 .stream()
-                .map(product -> entityDtoConverter.convertToDto(product, ProductDto.class))
+                .map(product -> productDtoConverter.convertToDto(product))
                 .collect(Collectors.toList());
     }
 
@@ -145,9 +141,9 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     public List<ProductDto> addProductToClient(@PathVariable Long id, @RequestBody ProductDto productDto) throws NotFoundException, AlreadyExistException {
 
-        return this.clientService.addProduct(id, entityDtoConverter.convertToEntity(productDto, Product.class))
+        return this.clientService.addProduct(id, productDtoConverter.convertToEntity(productDto))
                 .stream()
-                .map(product -> entityDtoConverter.convertToDto(product, ProductDto.class))
+                .map(product -> productDtoConverter.convertToDto(product))
                 .collect(Collectors.toList());
     }
 
