@@ -63,12 +63,4 @@ public class AcceptedQuoteService implements QuoteStateBasedService {
         return this.updatedQuote;
     }
 
-    //    @Override
-//    public Quote send() throws QuoteOperationNotAllowedException, QuoteNotFoundException {
-//        Quote savedQuote = quoteService.updateQuote(quote, QuoteState.WAITING_RESPONSE);
-//
-//        quoteListService.addQuoteToQuoteList(savedQuote);
-//
-//        return savedQuote;
-//    }
 }

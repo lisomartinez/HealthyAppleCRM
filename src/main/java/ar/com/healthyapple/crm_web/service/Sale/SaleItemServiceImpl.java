@@ -23,9 +23,6 @@ public class SaleItemServiceImpl implements SaleItemService {
     @Override
     @Transactional
     public SaleItem create(SaleItem productServiceSale) throws AlreadyExistException {
-//        if (serviceRepository.findByProductAndAndName(productServiceSale.getProduct(), productServiceSale.getName()).isPresent()) {
-//            throw new AlreadyExistException("QuoteItemDto already exists");
-//        }
         return saleItemRepository.save(productServiceSale);
     }
 

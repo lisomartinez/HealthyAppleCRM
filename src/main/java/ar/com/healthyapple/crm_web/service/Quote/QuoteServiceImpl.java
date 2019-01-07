@@ -1,14 +1,10 @@
 package ar.com.healthyapple.crm_web.service.Quote;
 
 import ar.com.healthyapple.crm_web.model.Product.StateBasedProduct;
-import ar.com.healthyapple.crm_web.model.Quote.QQuote;
 import ar.com.healthyapple.crm_web.model.Quote.Quote;
 import ar.com.healthyapple.crm_web.model.Quote.QuoteState;
 import ar.com.healthyapple.crm_web.repository.Quote.QuoteRepository;
-import com.querydsl.core.types.dsl.NumberExpression;
-import javafx.beans.binding.BooleanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,7 +12,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

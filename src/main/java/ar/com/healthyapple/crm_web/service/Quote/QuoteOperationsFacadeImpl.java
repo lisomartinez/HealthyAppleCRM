@@ -1,7 +1,6 @@
 package ar.com.healthyapple.crm_web.service.Quote;
 
 import ar.com.healthyapple.crm_web.exceptions.QuoteMalformedException;
-import ar.com.healthyapple.crm_web.exceptions.QuoteOperationNotAllowedException;
 import ar.com.healthyapple.crm_web.exceptions.QuoteVersionMismatchException;
 import ar.com.healthyapple.crm_web.model.Product.Product;
 import ar.com.healthyapple.crm_web.model.Product.ProductState;
@@ -53,17 +52,11 @@ public class QuoteOperationsFacadeImpl implements QuoteOperationsFacade {
     }
 
 
-
-
     @Override
     public void create(Quote quote) throws QuoteMalformedException {
         if (!isValidQuote(quote)) {
             throw new QuoteMalformedException("Invalid Quote");
         }
-
-
-//        setQuoteStateBasedProductToSavedProducts(quote);
-//        quote.setProducts(createStateBasedProducts(quote));
         this.newQuote = saveQuote(quote, QuoteState.QUOTED);
     }
 
@@ -195,25 +188,6 @@ public class QuoteOperationsFacadeImpl implements QuoteOperationsFacade {
             throw new QuoteVersionMismatchException("the quote is not the last version.");
         }
     }
-
-
-
-
-
-//    private Product createNewProduct(Quote quote) {
-//        assert quote != null : "Quote could not be null";
-//        return productService.create(getProductFrom(quote));
-//    }
-//
-//    private Product getProductFrom(Quote quote) {
-//        List<Product> quoteProducts = quote.getProducts()
-//                .stream()
-//                .filter(product -> product.getState().equals(ProductState.ACTUAL))
-//                .map(StateBasedProduct::getProduct)
-//                .collect(Collectors.toList());
-//
-//        return quoteProducts.stream().map(productService.read(quoteProduct.getId());
-//    }
 
     @Override
     public Quote getQuote() {

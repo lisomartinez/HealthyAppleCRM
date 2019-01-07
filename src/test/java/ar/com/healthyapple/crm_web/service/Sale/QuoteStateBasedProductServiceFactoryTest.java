@@ -36,8 +36,6 @@ public class QuoteStateBasedProductServiceFactoryTest {
     @MockBean
     private RequestedQuoteService requestedQuoteService;
 
-    @MockBean
-    private RejectedQuoteService rejectedQuoteService;
 
     @MockBean
     private QuotedQuoteService quotedQuoteService;
@@ -55,7 +53,7 @@ public class QuoteStateBasedProductServiceFactoryTest {
 
     @Before
     public void setUp() {
-        quoteStateBasedServiceList = Arrays.asList(newQuoteStateBasedService, acceptedQuoteService, rejectedQuoteService, requestedQuoteService, modifiedQuoteService, quotedQuoteService);
+        quoteStateBasedServiceList = Arrays.asList(newQuoteStateBasedService, acceptedQuoteService, requestedQuoteService, modifiedQuoteService, quotedQuoteService);
         quoteStateBasedServiceFactory = new QuoteStateBasedServiceFactory(quoteStateBasedServiceList);
 
     }
@@ -85,12 +83,6 @@ public class QuoteStateBasedProductServiceFactoryTest {
         assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(QuotedQuoteService.class);
     }
 
-    @Test
-    public void makeRejectedQuoteService() {
-        when(quote.getStatus()).thenReturn(QuoteState.REJECTED);
-        when(rejectedQuoteService.isResponsibleFor(quote.getStatus())).thenReturn(true);
-        assertThat(quoteStateBasedServiceFactory.makeQuoteService(quote)).isInstanceOf(RejectedQuoteService.class);
-    }
 
     @Test
     public void makeModifiedQuoteService() {

@@ -1,10 +1,7 @@
 package ar.com.healthyapple.crm_web.repository.Quote;
 
 import ar.com.healthyapple.crm_web.model.Client.Client;
-import ar.com.healthyapple.crm_web.model.Product.Product;
-import ar.com.healthyapple.crm_web.model.Product.ProductState;
 import ar.com.healthyapple.crm_web.model.Product.StateBasedProduct;
-import ar.com.healthyapple.crm_web.model.Quote.QQuote;
 import ar.com.healthyapple.crm_web.model.Quote.Quote;
 import ar.com.healthyapple.crm_web.model.Quote.QuoteItem;
 import ar.com.healthyapple.crm_web.model.Quote.QuoteState;
@@ -13,17 +10,17 @@ import ar.com.healthyapple.crm_web.repository.Product.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -65,8 +62,6 @@ public class QuoteRepositoryTest {
     @Test
     public void getNewestQuotes() {
 
-//        Product product = new Product();
-//        product = productRepository.save(product);
         List<StateBasedProduct> productMap = new ArrayList<>(Arrays.asList(new StateBasedProduct()));
         Client client = new Client();
         client = clientRepository.save(client);

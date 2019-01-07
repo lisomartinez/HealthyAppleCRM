@@ -15,11 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -140,12 +138,6 @@ public class ClientProductServiceImplTest {
         doNothing().when(clientRepository).delete(clientRequest);
         clientService.delete(clientRequest);
     }
-//
-//    @Test
-//    public void findByNameOrLastName() {
-//        when(clientRepository.findByFirstNameContainingAndLastNameContaining(clientRequest.getFirstName().toLowerCase(), PageRequest.of(0, 1))).thenReturn(Arrays.asList(clientResponse));
-//        List<Client>  clients = clientService.findByFirstNameOrLastName(clientRequest.getFirstName().toLowerCase(), 1, 1);
-//        assertThat(clients).containsExactlyInAnyOrder(clientResponse);
-//    }
+
 
 }

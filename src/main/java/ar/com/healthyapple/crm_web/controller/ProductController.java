@@ -4,17 +4,13 @@ import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductDtoConverter;
 import ar.com.healthyapple.crm_web.controller.DtoConverter.ProductProfileDtoConverter;
 import ar.com.healthyapple.crm_web.dto.Product.ProductDto;
 import ar.com.healthyapple.crm_web.dto.Product.ProductProfileDto;
-import ar.com.healthyapple.crm_web.dto.Product.ProductWithoutProfileDto;
 import ar.com.healthyapple.crm_web.exceptions.AlreadyExistException;
 import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
-import ar.com.healthyapple.crm_web.exceptions.PageDoesNotExistException;
 import ar.com.healthyapple.crm_web.model.Product.Product;
 import ar.com.healthyapple.crm_web.service.Client.ClientService;
 import ar.com.healthyapple.crm_web.service.Product.ProductProfileService;
 import ar.com.healthyapple.crm_web.service.Product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,18 +72,6 @@ public class ProductController {
     public void deleteProductById(@PathVariable Long id, @RequestParam Long client_id) throws NotFoundException {
         clientService.deleteClientProductById(client_id, id);
     }
-
-//    @GetMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public Page<ProductWithoutProfileDto> findAllProducts(Pageable pageable) throws PageDoesNotExistException {
-//
-//        Page<Product> productPage = this.productService.findAll(pageable);
-//
-//        Page<ProductWithoutProfileDto> productDtoPage = productPage.map(component -> productDtoConverter.convertToThinProductDto(component, ProductWithoutProfileDto.class));
-//
-//        return productDtoPage;
-//    }
-
 
     @GetMapping(Uris.NAMES + Uris.CLIENTS + Uris.ID)
     @ResponseStatus(HttpStatus.OK)

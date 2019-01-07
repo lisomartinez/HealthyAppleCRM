@@ -34,9 +34,6 @@ public class QuoteStateBasedServiceFactoryTest {
     private QuotedQuoteService quotedQuoteService;
 
     @MockBean
-    private RejectedQuoteService rejectedQuoteService;
-
-    @MockBean
     private WaitingResponseQuoteService waitingResponseQuoteService;
 
     @MockBean
@@ -50,7 +47,6 @@ public class QuoteStateBasedServiceFactoryTest {
                 modifiedQuoteService,
                 newQuoteStateBasedService,
                 quotedQuoteService,
-                rejectedQuoteService,
                 waitingResponseQuoteService
         ));
         quoteFactory = new QuoteStateBasedServiceFactory(quoteStateBasedServices);
@@ -64,7 +60,6 @@ public class QuoteStateBasedServiceFactoryTest {
         when(acceptedQuoteService.isResponsibleFor(newQuote)).thenReturn(Boolean.FALSE);
         when(modifiedQuoteService.isResponsibleFor(newQuote)).thenReturn(Boolean.FALSE);
         when(quotedQuoteService.isResponsibleFor(newQuote)).thenReturn(Boolean.FALSE);
-        when(rejectedQuoteService.isResponsibleFor(newQuote)).thenReturn(Boolean.FALSE);
         when(waitingResponseQuoteService.isResponsibleFor(newQuote)).thenReturn(Boolean.FALSE);
 
         when(newQuoteStateBasedService.isResponsibleFor(newQuote)).thenReturn(Boolean.TRUE);

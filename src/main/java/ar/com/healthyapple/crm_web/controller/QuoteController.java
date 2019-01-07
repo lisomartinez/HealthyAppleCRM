@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping(Uris.QUOTES)
 public class QuoteController {
 
-    private QuoteStateBasedServiceFactory quoteStateBasedServiceFactory;
+    private QuoteStateBasedServiceFactory quoteStateBasedService;
 
     private QuoteDtoConverter quoteDtoConverter;
 
@@ -37,8 +37,8 @@ public class QuoteController {
     private SaleController saleController;
 
     @Autowired
-    public QuoteController(QuoteStateBasedServiceFactory quoteStateBasedServiceFactory, QuoteDtoConverter quoteDtoConverter, RequestQuoteDtoConverter requestQuoteDtoConverter, ClientService clientService, ThinClientDtoConverter thinClientDtoConverter, SaleController saleController) {
-        this.quoteStateBasedServiceFactory = quoteStateBasedServiceFactory;
+    public QuoteController(QuoteStateBasedServiceFactory quoteStateBasedService, QuoteDtoConverter quoteDtoConverter, RequestQuoteDtoConverter requestQuoteDtoConverter, ClientService clientService, ThinClientDtoConverter thinClientDtoConverter, SaleController saleController) {
+        this.quoteStateBasedService = quoteStateBasedService;
         this.quoteDtoConverter = quoteDtoConverter;
         this.requestQuoteDtoConverter = requestQuoteDtoConverter;
         this.clientService = clientService;
@@ -63,7 +63,7 @@ public class QuoteController {
     private QuoteStateBasedService getResponsibleServiceFor(QuoteDto quoteDto) throws QuoteOperationNotAllowedException {
        Quote quote = quoteDtoConverter.convertToEntity(quoteDto);
        quote.setClient(getClientFrom(quoteDto.getClientId()));
-       return quoteStateBasedServiceFactory.makeQuoteService(quote);
+        return quoteStateBasedService.makeQuoteService(quote);
     }
 
     private Client getClientFrom(Long id) throws NotFoundException {
@@ -116,7 +116,6 @@ public class QuoteController {
     public SaleDto acceptQuote(@RequestBody QuoteDto quoteDto) throws QuoteOperationNotAllowedException, QuoteNotFoundException, QuoteListNotFoundException {
         QuoteStateBasedService service =  getResponsibleServiceFor(quoteDto);
         service.accept();
-//        QuoteDto response = makeResponse(service.getQuote(), service);
         return saleController.createFromQuote(service.getQuote());
     }
 

@@ -7,11 +7,9 @@ import ar.com.healthyapple.crm_web.model.Product.Specification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
 
-@Service
 public interface SpecificationService {
 
     Specification create(Specification specification) throws AlreadyExistException;

@@ -4,7 +4,6 @@ import ar.com.healthyapple.crm_web.exceptions.*;
 import ar.com.healthyapple.crm_web.model.Client.Client;
 import ar.com.healthyapple.crm_web.model.Client.QClient;
 import ar.com.healthyapple.crm_web.model.Product.Product;
-import ar.com.healthyapple.crm_web.model.Sale.Sale;
 import ar.com.healthyapple.crm_web.repository.Client.ClientRepository;
 import ar.com.healthyapple.crm_web.repository.Product.ProductRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -228,10 +227,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public Map<Long, String> findProductsIdAndDescriptionByClientId(Long id) throws NotFoundException {
-//        List<Product> products = findProductsByClientId(id);
-//        return products.stream().collect(Collectors.toMap(Product::getId, Product::getDescription));
         return clientRepository.findClientProductsProfileDescriptionByProductType(id);
-//        return null;
     }
 
 

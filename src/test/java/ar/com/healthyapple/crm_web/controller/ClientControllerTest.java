@@ -18,7 +18,6 @@ import ar.com.healthyapple.crm_web.model.Product.Product;
 import ar.com.healthyapple.crm_web.model.Sale.Sale;
 import ar.com.healthyapple.crm_web.service.Client.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,12 +30,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -191,22 +190,4 @@ public class ClientControllerTest {
                 .andExpect(status().isOk());
     }
 
-
-
-//    @Test
-//    public void getProdutsShouldReturnResources() throws Exception {
-//        when(clientService.findProductsByMobile(clientRequest.getMobile()))
-//                .thenReturn(products);
-//
-//         when(entityDtoConverter.convertToDto(productRequest, ProductDto.class)).thenReturn(productDtoResponse);
-//
-//        MvcResult result = this.mockMvc.perform(get(Uris.CLIENTS + Uris.ID + Uris.PRODUCTS, clientResponse.getMobile())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andReturn();
-//        ProductDto[] prods = objectMapper.readValue(result.getResponse().getContentAsString(), ProductDto[].class);
-//
-//        assertThat(Arrays.asList(prods)).isEqualTo(productDtoList);
-//    }
 }

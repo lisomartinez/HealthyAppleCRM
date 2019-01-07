@@ -11,11 +11,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.ManyToMany;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -136,15 +134,4 @@ public class QuoteOperationsFacadeTest {
         exception.expect(AssertionError.class);
         operations.accept(quote);
     }
-
-//    @Test
-//    public void send() {
-//    }
-//
-//    @Test
-//    public void sendWithNullThrowAssertionError() {
-//        Quote quote = null;
-//        exception.expect(AssertionError.class);
-//        operations.send(quote);
-//    }
 }

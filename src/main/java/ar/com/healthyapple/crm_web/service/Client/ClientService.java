@@ -3,20 +3,14 @@ package ar.com.healthyapple.crm_web.service.Client;
 import ar.com.healthyapple.crm_web.exceptions.*;
 import ar.com.healthyapple.crm_web.model.Client.Client;
 import ar.com.healthyapple.crm_web.model.Product.Product;
-import ar.com.healthyapple.crm_web.model.Sale.Sale;
-import org.aspectj.weaver.ast.Not;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Service
-@Transactional
+
 public interface ClientService {
 
     Client create(Client client) throws AlreadyExistException;
@@ -38,8 +32,6 @@ public interface ClientService {
             InvalidAddressException, InvalidDateFormatException, InvalidEmailAddressException, NotYetImplementedException, AlreadyExistException;
 
     Client updateProduct(Long mobile, Product product) throws NotFoundException;
-
-
 
     List<Product> findProductsByClientId(Long id) throws NotFoundException;
 

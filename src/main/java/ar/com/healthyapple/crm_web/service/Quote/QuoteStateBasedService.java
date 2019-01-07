@@ -12,15 +12,6 @@ import java.util.List;
 
 @Service
 public interface QuoteStateBasedService {
-//    Quote request(Quote quote) throws QuoteOperationNotAllowedException;
-//
-
-//
-//    Quote modify(List<QuoteItemDto> productServiceSaleList) throws QuoteOperationNotAllowedException;
-//
-//    void cancel() throws QuoteOperationNotAllowedException;
-//
-//    void confirm() throws QuoteOperationNotAllowedException;
 
     boolean isResponsibleFor(QuoteState quoteState);
 

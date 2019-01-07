@@ -4,7 +4,6 @@ import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
 import ar.com.healthyapple.crm_web.model.Product.StateBasedProduct;
 import ar.com.healthyapple.crm_web.model.Quote.Quote;
 import ar.com.healthyapple.crm_web.model.Sale.Sale;
-import ar.com.healthyapple.crm_web.model.Sale.SaleItem;
 import ar.com.healthyapple.crm_web.model.Sale.SaleState;
 import ar.com.healthyapple.crm_web.repository.Sale.SaleRepository;
 import ar.com.healthyapple.crm_web.service.Client.ClientService;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SaleServiceImpl implements SaleService {
@@ -32,7 +29,6 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    //TODO: REFACTOR
     public Sale create(Sale sale) {
             return saleRepository.save(sale);
     }

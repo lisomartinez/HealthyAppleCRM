@@ -5,9 +5,8 @@ import ar.com.healthyapple.crm_web.exceptions.NotFoundException;
 import ar.com.healthyapple.crm_web.model.Product.Component;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-@Service
+
 public interface ComponentService {
 
     Component create(Component component) throws AlreadyExistException;

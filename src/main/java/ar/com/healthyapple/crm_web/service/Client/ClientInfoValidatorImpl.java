@@ -23,7 +23,6 @@ public class ClientInfoValidatorImpl implements ClientInfoValidator {
     @Override
     public boolean isFirstNameValid(String firstName) {
         return firstName != null && !firstName.isEmpty() && firstName.trim().length() != 0;
-
     }
 
     @Override
@@ -45,12 +44,10 @@ public class ClientInfoValidatorImpl implements ClientInfoValidator {
     public boolean isStartDateValid(String startDate) {
         LogManager.getLogger().debug(startDate);
         try {
-//            DateTimeFormatter format = DateTimeFormatter.ofPattern("YYYY-MM-DD");
             LocalDate localDate = LocalDate.parse(startDate);
             return true;
         } catch (DateTimeParseException ex) {
             return false;
         }
-
     }
 }
